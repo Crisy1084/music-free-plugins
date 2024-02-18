@@ -431,9 +431,9 @@ module.exports = {
     platform: "bilibili",
     appVersion: ">=0.0",
     version: "0.1.12",
-    author: "猫头猫",
+    author: "猫大神",
     cacheControl: "no-cache",
-    srcUrl: "https://gitee.com/maotoumao/MusicFreePlugins/raw/v0.1/dist/bilibili/index.js",
+    srcUrl: "https://gitee.com/crisy/music-free-plugins/raw/release/dist/bilibili/index.js",
     primaryKey: ["id", "aid", "bvid", "cid"],
     hints: {
         importMusicSheet: [

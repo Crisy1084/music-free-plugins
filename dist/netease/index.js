@@ -512,10 +512,10 @@ async function getMusicSheetInfo(sheet, page) {
 }
 module.exports = {
     platform: "网易云",
-    author: '猫头猫',
+    author: '猫大神',
     version: "0.2.3",
     appVersion: ">0.1.0-alpha.0",
-    srcUrl: "https://gitee.com/maotoumao/MusicFreePlugins/raw/v0.1/dist/netease/index.js",
+    srcUrl: "https://gitee.com/crisy/music-free-plugins/raw/release/dist/netease/index.js",
     cacheControl: "no-store",
     hints: {
         importMusicSheet: [

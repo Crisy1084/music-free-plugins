@@ -56,7 +56,7 @@ async function searchMusic(query) {
 }
 module.exports = {
     platform: "WebDAV",
-    author: "猫头猫",
+    author: "猫大神",
     description: "使用此插件前先配置用户变量",
     userVariables: [
         {
@@ -79,7 +79,7 @@ module.exports = {
     ],
     version: "0.0.0",
     supportedSearchType: ["music"],
-    srcUrl: "https://gitee.com/maotoumao/MusicFreePlugins/raw/v0.1/dist/webdav/index.js",
+    srcUrl: "https://gitee.com/crisy/music-free-plugins/raw/release/dist/webdav/index.js",
     cacheControl: "no-cache",
     search(query, page, type) {
         if (type === "music") {

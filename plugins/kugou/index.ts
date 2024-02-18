@@ -396,10 +396,10 @@ async function importMusicSheet(urlLike: string) {
 module.exports = {
   platform: "酷狗",
   version: "0.1.5",
-  author: '猫头猫',
+  author: '猫大神',
   appVersion: ">0.1.0-alpha.0",
   srcUrl:
-    "https://gitee.com/maotoumao/MusicFreePlugins/raw/v0.1/dist/kugou/index.js",
+    "https://gitee.com/crisy/music-free-plugins/raw/release/dist/kugou/index.js",
   cacheControl: "no-cache",
   primaryKey: ["id", "album_id", "album_audio_id"],
   hints: {

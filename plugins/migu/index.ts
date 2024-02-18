@@ -744,7 +744,7 @@ async function getMediaSource(musicItem, quality) {
 
 module.exports = {
   platform: "咪咕",
-  author: "猫头猫",
+  author: "猫大神",
   version: "0.2.2",
   appVersion: ">0.1.0-alpha.0",
   hints: {
@@ -757,7 +757,7 @@ module.exports = {
   primaryKey: ["id", "copyrightId"],
   cacheControl: "no-cache",
   srcUrl:
-    "https://gitee.com/maotoumao/MusicFreePlugins/raw/v0.1/dist/migu/index.js",
+    "https://gitee.com/crisy/music-free-plugins/raw/release/dist/migu/index.js",
   supportedSearchType: ["music", "album", "sheet", "artist", "lyric"],
   getMediaSource,
   async search(query, page, type) {

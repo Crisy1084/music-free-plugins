@@ -548,11 +548,11 @@ async function getMusicSheetInfo(sheet: IMusicSheet.IMusicSheetItem, page) {
 
 module.exports = {
   platform: "酷我",
-  author: '猫头猫',
+  author: '猫大神',
   version: "0.1.7",
   appVersion: ">0.1.0-alpha.0",
   srcUrl:
-    "https://gitee.com/maotoumao/MusicFreePlugins/raw/v0.1/dist/kuwo/index.js",
+    "https://gitee.com/crisy/music-free-plugins/raw/release/dist/kuwo/index.js",
   cacheControl: "no-cache",
   hints: {
     importMusicSheet: [

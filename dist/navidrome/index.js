@@ -84,9 +84,9 @@ async function getAlbumInfo(albumItem) {
 module.exports = {
     platform: "Navidrome",
     version: "0.0.0",
-    author: '猫头猫',
+    author: '猫大神',
     appVersion: ">0.1.0-alpha.0",
-    srcUrl: "https://gitee.com/maotoumao/MusicFreePlugins/raw/v0.1/dist/navidrome/index.js",
+    srcUrl: "https://gitee.com/crisy/music-free-plugins/raw/release/dist/navidrome/index.js",
     cacheControl: "no-cache",
     userVariables: [
         {

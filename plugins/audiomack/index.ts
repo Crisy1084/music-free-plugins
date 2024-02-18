@@ -559,10 +559,10 @@ async function getTopListDetail(topListItem, page = 1) {
 module.exports = {
   platform: "Audiomack",
   version: "0.0.2",
-  author: '猫头猫',
+  author: '猫大神',
   primaryKey: ["id", "url_slug"],
   srcUrl:
-    "https://gitee.com/maotoumao/MusicFreePlugins/raw/v0.1/dist/audiomack/index.js",
+    "https://gitee.com/crisy/music-free-plugins/raw/release/dist/audiomack/index.js",
   cacheControl: "no-cache",
   supportedSearchType: ['music', 'album', 'sheet', 'artist'],
   async search(query, page, type) {

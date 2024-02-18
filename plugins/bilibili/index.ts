@@ -527,10 +527,10 @@ module.exports = {
   platform: "bilibili",
   appVersion: ">=0.0",
   version: "0.1.12",
-  author: "猫头猫",
+  author: "猫大神",
   cacheControl: "no-cache",
   srcUrl:
-    "https://gitee.com/maotoumao/MusicFreePlugins/raw/v0.1/dist/bilibili/index.js",
+    "https://gitee.com/crisy/music-free-plugins/raw/release/dist/bilibili/index.js",
   primaryKey: ["id", "aid", "bvid", "cid"],
   hints: {
     importMusicSheet: [
@@ -615,7 +615,7 @@ module.exports = {
 // }, 'standard').then(console.log)
 
 // getArtistWorks({
-//   name: '不想睡觉猫头猫',
+//   name: '不想睡觉猫大神',
 //   id: 12866223,
 //   fans: 1103,
 //   description: '不定期搞搞事情～点个关注吧\n(๑>؂<๑）',
