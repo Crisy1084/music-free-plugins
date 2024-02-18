@@ -8,7 +8,7 @@
         {
             "name": "bilibili",
             "url": "https://gitee.com/crisy/music-free-plugins/raw/release/dist/bilibili/index.js",
-            "version": "0.1.12"
+            "version": "0.1.15"
         },
         {
             "name": "快手",
