@@ -84,6 +84,11 @@
             "name": "Youtube",
             "url": "https://gitee.com/crisy/music-free-plugins/raw/release/dist/youtube/index.js",
             "version": "0.0.1"
+        },
+        {
+            "name": "小蜗音乐",
+            "url": "https://gitee.com/crisy/music-free-plugins/raw/release/dist/xiaowo/index.js",
+            "version": "0.2.0"
         }
     ]
 }
