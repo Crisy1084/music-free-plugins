@@ -89,6 +89,21 @@
             "name": "小蜗音乐",
             "url": "https://gitee.com/crisy/music-free-plugins/raw/release/dist/xiaowo/index.js",
             "version": "0.2.0"
+        },
+        {
+            "name": "酷歌词",
+            "url": "https://gitee.com/crisy/music-free-plugins/raw/release/dist/lyricku/index.js",
+            "version": "0.2.0"
+        },
+        {
+            "name": "歌词网",
+            "url": "https://gitee.com/crisy/music-free-plugins/raw/release/dist/lyricnet/index.js",
+            "version": "0.0.0"
+        },
+        {
+            "name": "歌词千寻",
+            "url": "https://gitee.com/crisy/music-free-plugins/raw/release/dist/lyricsearch/index.js",
+            "version": "0.2.0"
         }
     ]
 }
