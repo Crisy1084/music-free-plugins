@@ -7,12 +7,8 @@ function artworkShort2Long(albumpicShort) {
     var _a;
     const firstSlashOfAlbum = (_a = albumpicShort === null || albumpicShort === void 0 ? void 0 : albumpicShort.indexOf("/")) !== null && _a !== void 0 ? _a : -1;
     return firstSlashOfAlbum !== -1
-        ? `https://img4.kuwo.cn/star/albumcover/256${albumpicShort.slice(firstSlashOfAlbum)}`
+        ? `https://img4.kuwo.cn/star/albumcover/1080${albumpicShort.slice(firstSlashOfAlbum)}`
         : undefined;
-}
-function musicListFilter(item) {
-    var _a;
-    return ((_a = item === null || item === void 0 ? void 0 : item.payInfo) === null || _a === void 0 ? void 0 : _a.listen_fragment) !== '1';
 }
 function formatMusicItem(_) {
     return {
@@ -64,18 +60,23 @@ async function searchMusic(query, page) {
         method: "get",
         url: `http://search.kuwo.cn/r.s`,
         params: {
-            all: query,
-            ft: "music",
-            itemset: "web_2013",
             client: "kt",
+            all: query,
             pn: page - 1,
             rn: pageSize,
-            rformat: "json",
+            uid: 2574109560,
+            ver: "kwplayer_ar_8.5.4.2",
+            vipver: 1,
+            ft: "music",
+            cluster: 0,
+            strategy: 2012,
             encoding: "utf8",
-            pcjson: 1,
+            rformat: "json",
+            vermerge: 1,
+            mobi: 1,
         },
     })).data;
-    const songs = res.abslist.filter(musicListFilter).map(formatMusicItem);
+    const songs = res.abslist.map(formatMusicItem);
     return {
         isEnd: (+res.PN + 1) * +res.RN >= +res.TOTAL,
         data: songs,
@@ -169,7 +170,7 @@ async function getArtistMusicWorks(artistItem, page) {
             pcjson: 1,
         },
     })).data;
-    const songs = res.musiclist.filter(musicListFilter).map((_) => {
+    const songs = res.musiclist.map((_) => {
         return {
             id: _.musicrid,
             artwork: artworkShort2Long(_.web_albumpic_short),
@@ -208,7 +209,7 @@ async function getArtistAlbumWorks(artistItem, page) {
             pcjson: 1,
         },
     })).data;
-    const albums = res.albumlist.filter(musicListFilter).map(formatAlbumItem);
+    const albums = res.albumlist.map(formatAlbumItem);
     return {
         isEnd: (+res.pn + 1) * pageSize >= +res.total,
         data: albums,
@@ -256,7 +257,7 @@ async function getAlbumInfo(albumItem) {
             pcjson: 1,
         },
     })).data;
-    const songs = res.musiclist.filter(musicListFilter).map((_) => {
+    const songs = res.musiclist.map((_) => {
         var _a;
         return {
             id: _.id,
@@ -306,7 +307,8 @@ async function getTopListDetail(topListItem) {
             httpStatus: 1,
         },
     });
-    return Object.assign(Object.assign({}, topListItem), { musicList: res.data.musiclist.map((_) => {
+    return Object.assign(Object.assign({}, topListItem), {
+        musicList: res.data.musiclist.map((_) => {
             return {
                 id: _.id,
                 title: he.decode(_.name || ""),
@@ -316,7 +318,8 @@ async function getTopListDetail(topListItem) {
                 artistId: _.artistid,
                 formats: _.formats,
             };
-        }) });
+        })
+    });
 }
 async function getMusicSheetResponseById(id, page, pagesize = 50) {
     return (await axios_1.default.get(`http://nplserver.kuwo.cn/pl.svc`, {
@@ -357,7 +360,7 @@ async function importMusicSheet(urlLike) {
             if (isNaN(totalPage)) {
                 totalPage = 1;
             }
-            musicList = musicList.concat(data.musicList.filter(musicListFilter).map((_) => ({
+            musicList = musicList.concat(data.musicList.map((_) => ({
                 id: _.id,
                 title: he.decode(_.name || ""),
                 artist: he.decode(_.artist || ""),
@@ -381,13 +384,13 @@ async function getRecommendSheetTags() {
     const res = (await axios_1.default.get(`http://wapi.kuwo.cn/api/pc/classify/playlist/getTagList?cmd=rcm_keyword_playlist&user=0&prod=kwplayer_pc_9.0.5.0&vipver=9.0.5.0&source=kwplayer_pc_9.0.5.0&loginUid=0&loginSid=0&appUid=76039576`)).data.data;
     const data = res
         .map((group) => ({
-        title: group.name,
-        data: group.data.map((_) => ({
-            id: _.id,
-            digest: _.digest,
-            title: _.name,
-        })),
-    }))
+            title: group.name,
+            data: group.data.map((_) => ({
+                id: _.id,
+                digest: _.digest,
+                title: _.name,
+            })),
+        }))
         .filter((item) => item.data.length);
     const pinned = [
         {
@@ -451,7 +454,7 @@ async function getMusicSheetInfo(sheet, page) {
     const res = await getMusicSheetResponseById(sheet.id, page, pageSize);
     return {
         isEnd: page * pageSize >= res.total,
-        musicList: res.musiclist.filter(musicListFilter).map((_) => ({
+        musicList: res.musiclist.map((_) => ({
             id: _.id,
             title: he.decode(_.name || ""),
             artist: he.decode(_.artist || ""),
@@ -462,10 +465,47 @@ async function getMusicSheetInfo(sheet, page) {
         })),
     };
 }
+const qualityLevels = {
+    low: "128k",
+    standard: "320k",
+    high: "320k",
+    super: "320k",
+};
+async function getMediaSource(musicItem, quality) {
+    const res = (
+        await axios_1.default.get(`https://render.niuma666bet.buzz/url/kw/${musicItem.id}/${qualityLevels[quality]}`, {
+            headers: {
+                "X-Request-Key": "share-v2"
+            },
+        })
+    ).data;
+    return {
+        url: res.url,
+    };
+}
+async function getMusicInfo(musicItem) {
+    const res = (await axios_1.default.get("http://m.kuwo.cn/newh5/singles/songinfoandlrc", {
+        params: {
+            musicId: musicItem.id,
+            httpStatus: 1,
+        },
+    })).data;
+    const originalUrl = res.data.songinfo.pic;
+    let picUrl;
+    if (originalUrl.includes("starheads/")) {
+        picUrl = originalUrl.replace(/starheads\/\d+/, "starheads/800");
+    }
+    else if (originalUrl.includes("albumcover/")) {
+        picUrl = originalUrl.replace(/albumcover\/\d+/, "albumcover/800");
+    }
+    return {
+        artwork: picUrl,
+    };
+}
 module.exports = {
     platform: "酷我",
-    author: '猫大神',
-    version: "0.1.7",
+    author: '小趴菜',
+    version: "0.1.8",
     appVersion: ">0.1.0-alpha.0",
     srcUrl: "https://gitee.com/crisy/music-free-plugins/raw/release/dist/kuwo/index.js",
     cacheControl: "no-cache",
@@ -473,7 +513,7 @@ module.exports = {
         importMusicSheet: [
             "酷我APP：自建歌单-分享-复制试听链接，直接粘贴即可",
             "H5：复制URL并粘贴，或者直接输入纯数字歌单ID即可",
-            "导入过程中会过滤掉所有VIP/试听/收费音乐，导入时间和歌单大小有关，请耐心等待",
+            "导入时间和歌单大小有关，请耐心等待",
         ],
     },
     supportedSearchType: ["music", "album", "sheet", 'artist'],
@@ -491,15 +531,8 @@ module.exports = {
             return await searchMusicSheet(query, page);
         }
     },
-    async getMediaSource(musicItem, quality) {
-        if (quality !== 'standard') {
-            return;
-        }
-        const res = (await axios_1.default.get(`https://antiserver.kuwo.cn/anti.s?type=convert_url3&rid=${musicItem.id}&format=mp3`)).data;
-        return {
-            url: res.url,
-        };
-    },
+    getMediaSource,
+    getMusicInfo,
     getAlbumInfo,
     getLyric,
     getArtistWorks,

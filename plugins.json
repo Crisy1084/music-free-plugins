@@ -28,7 +28,7 @@
         {
             "name": "酷我",
             "url": "https://gitee.com/crisy/music-free-plugins/raw/release/dist/kuwo/index.js",
-            "version": "0.1.7"
+            "version": "0.1.8"
         },
         {
             "name": "猫耳FM",
@@ -84,11 +84,6 @@
             "name": "Youtube",
             "url": "https://gitee.com/crisy/music-free-plugins/raw/release/dist/youtube/index.js",
             "version": "0.0.1"
-        },
-        {
-            "name": "小蜗音乐",
-            "url": "https://gitee.com/crisy/music-free-plugins/raw/release/dist/xiaowo/index.js",
-            "version": "0.2.0"
         },
         {
             "name": "酷歌词",
