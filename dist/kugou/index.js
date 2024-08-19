@@ -4,26 +4,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 const axios_1 = require("axios");
 const cheerio_1 = require("cheerio");
-const CryptoJs = require("crypto-js");
-const he = require("he");
+const CryptoJS = require("crypto-js");
 const pageSize = 20;
+const validMusicFilter = (_) => true;
 function formatMusicItem(_) {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _i;
-    return {
-        id: (_d = _.FileHash) !== null && _d !== void 0 ? _d : _.Grp[0].FileHash,
-        title: (_a = _.SongName) !== null && _a !== void 0 ? _a : _.OriSongName,
-        artist: (_b = _.SingerName) !== null && _b !== void 0 ? _b : _.Singers[0].name,
-        album: (_c = _.AlbumName) !== null && _c !== void 0 ? _c : _.Grp[0].AlbumName,
-        album_id: (_e = _.AlbumID) !== null && _e !== void 0 ? _e : _.Grp[0].AlbumID,
-        album_audio_id: 0,
-        duration: _.Duration,
-        artwork: ((_f = _.Image) !== null && _f !== void 0 ? _f : _.Grp[0].Image).replace("{size}", "1080"),
-        "320hash": (_i = _.HQFileHash) !== null && _i !== void 0 ? _i : undefined,
-        sqhash: (_g = _.SQFileHash) !== null && _g !== void 0 ? _g : undefined,
-        ResFileHash: (_h = _.ResFileHash) !== null && _h !== void 0 ? _h : undefined,
-    };
-}
-function formatMusicItem2(_) {
     var _a, _b, _c, _d, _e, _f, _g;
     return {
         id: _.hash,
@@ -42,7 +26,6 @@ function formatMusicItem2(_) {
         artwork: _.album_sizable_cover ?
             _.album_sizable_cover.replace("{size}", "400") :
             undefined,
-        duration: _.duration,
         "320hash": _["320hash"],
         sqhash: _.sqhash,
         origin_hash: _.origin_hash,
@@ -85,28 +68,6 @@ const headers = {
     "Accept-Encoding": "gzip, deflate",
     "Accept-Language": "zh-CN,zh;q=0.9",
 };
-async function searchMusic(query, page) {
-    const res = (await axios_1.default.get("https://songsearch.kugou.com/song_search_v2", {
-        headers,
-        params: {
-            keyword: query,
-            page,
-            pagesize: pageSize,
-            userid: 0,
-            clientver: "",
-            platform: "WebFilter",
-            filter: 2,
-            iscorrection: 1,
-            privilege_filter: 0,
-            area_code: 1,
-        },
-    })).data;
-    const songs = res.data.lists.map(formatMusicItem);
-    return {
-        isEnd: page * pageSize >= res.data.total,
-        data: songs,
-    };
-}
 async function searchAlbum(query, page) {
     const res = (await axios_1.default.get("http://msearch.kugou.com/api/v3/search/album", {
         headers,
@@ -164,25 +125,6 @@ async function searchMusicSheet(query, page) {
     return {
         isEnd: page * pageSize >= res.data.total,
         data: sheets,
-    };
-}
-const qualityLevels = {
-    low: "128k",
-    standard: "320k",
-    high: "320k",
-    super: "320k",
-};
-async function getMediaSource(musicItem, quality) {
-    const res = (
-        await axios_1.default.get(
-            `https://render.niuma666bet.buzz/url/kg/${musicItem.id}/${qualityLevels[quality]}`, {
-                headers: {
-                    "X-Request-Key": "share-v2"
-                },
-            })
-    ).data;
-    return {
-        url: res.url,
     };
 }
 async function getTopLists() {
@@ -255,44 +197,8 @@ async function getTopListDetail(topListItem) {
             headers,
         });
     return Object.assign(Object.assign({}, topListItem), {
-        musicList: res.data.data.info.map(formatMusicItem2)
+        musicList: res.data.data.info.map(formatMusicItem)
     });
-}
-async function getLyricDownload(lyrdata) {
-    const result = (await (0, axios_1.default)({
-        // url: `http://lyrics.kugou.com/download?ver=1&client=pc&id=${lyrdata.id}&accesskey=${lyrdata.accessKey}&fmt=krc&charset=utf8`,
-        url: `http://lyrics.kugou.com/download?ver=1&client=pc&id=${lyrdata.id}&accesskey=${lyrdata.accessKey}&fmt=lrc&charset=utf8`,
-        headers: {
-            'KG-RC': 1,
-            'KG-THash': 'expand_search_manager.cpp:852736169:451',
-            'User-Agent': 'KuGou2012-9020-ExpandSearchManager',
-        },
-        method: "get",
-        xsrfCookieName: "XSRF-TOKEN",
-        withCredentials: true,
-    })).data;
-    return {
-        rawLrc: he.decode(CryptoJs.enc.Base64.parse(result.content).toString(CryptoJs.enc.Utf8)),
-    };
-}
-// copy from lxmusic https://github.com/lyswhut/lx-music-desktop/blob/master/src/renderer/utils/musicSdk/kg/lyric.js#L114
-async function getLyric(musicItem) {
-    const result = (await (0, axios_1.default)({
-        url: `http://lyrics.kugou.com/search?ver=1&man=yes&client=pc&keyword=${musicItem.title}&hash=${musicItem.id}&timelength=${musicItem.duration}`,
-        headers: {
-            'KG-RC': 1,
-            'KG-THash': 'expand_search_manager.cpp:852736169:451',
-            'User-Agent': 'KuGou2012-9020-ExpandSearchManager',
-        },
-        method: "get",
-        xsrfCookieName: "XSRF-TOKEN",
-        withCredentials: true,
-    })).data;
-    const info = result.candidates[0];
-    return await getLyricDownload({
-        id: info.id,
-        accessKey: info.accesskey
-    })
 }
 async function getAlbumInfo(albumItem, page = 1) {
     const res = (await axios_1.default.get("http://mobilecdn.kugou.com/api/v3/album/song", {
@@ -311,7 +217,7 @@ async function getAlbumInfo(albumItem, page = 1) {
         albumItem: {
             worksNum: res.data.total,
         },
-        musicList: res.data.info.map((_) => {
+        musicList: res.data.info.filter(validMusicFilter).map((_) => {
             var _a;
             const [artist, songname] = _.filename.split("-");
             return {
@@ -322,9 +228,9 @@ async function getAlbumInfo(albumItem, page = 1) {
                 album_id: _.album_id,
                 album_audio_id: _.album_audio_id,
                 artwork: albumItem.artwork,
-                "320hash": _.HQFileHash,
-                sqhash: _.SQFileHash,
-                origin_hash: _.id,
+                "320hash": _["320hash"],
+                sqhash: _.sqhash,
+                origin_hash: _.origin_hash,
             };
         }),
     };
@@ -397,15 +303,130 @@ async function importMusicSheet(urlLike) {
                 });
             if (response.status === 200 && response.data.status === 1) {
                 musicList = result.data.data
+                    .filter(validMusicFilter)
                     .map(formatImportMusicItem);
             }
         }
     }
     return musicList;
 }
+// async function searchMusic(query, page) {
+// let res = (await (0, axios_1.default)({
+// method: "GET",
+// url: `https://songsearch.kugou.com/song_search_v2?keyword=${query}&page=${page}&pagesize=20&userid=0&clientver&platform=WebFilter&filter=2&iscorrection=1&privilege_filter=0&area_code=1`,
+// })).data;
+// const songs = res.data.lists.map((_) => {
+// return {
+// id: _.FileHash,
+// title: _.OriSongName + (_.Suffix ? ' ' + _.Suffix : ''),
+// artist: _.SingerName,
+// album: _.AlbumName,
+// album_id: _.AlbumID,
+// album_audio_id: _.MixSongID,
+// artwork: _.Image ? _.Image.replace("{size}", "400") : undefined,
+// "320hash": _.HQFileHash,
+// sqhash: _.SQFileHash,
+// origin_hash: _.ResFileHash
+// };
+// });
+// return {
+// isEnd: page * pageSize >= res.data.total,
+// data: songs,
+// };
+// }
+async function searchMusic(query, page) {
+    const res = (await axios_1.default.get("https://songsearch.kugou.com/song_search_v2", {
+        headers,
+        params: {
+            keyword: query,
+            page,
+            pagesize: pageSize,
+            userid: 0,
+            clientver: "",
+            platform: "WebFilter",
+            filter: 2,
+            iscorrection: 1,
+            privilege_filter: 0,
+            area_code: 1,
+        },
+    })).data;
+    const songs = res.data.lists.map((_) => {
+        return {
+            id: _.FileHash,
+            title: _.OriSongName + (_.Suffix ? ' ' + _.Suffix : ''),
+            artist: _.SingerName,
+            album: _.AlbumName,
+            album_id: _.AlbumID,
+            album_audio_id: _.MixSongID,
+            artwork: _.Image ? _.Image.replace("{size}", "400") : undefined,
+            "320hash": _.HQFileHash,
+            sqhash: _.SQFileHash,
+            origin_hash: _.ResFileHash
+        };
+    });
+    return {
+        isEnd: page * pageSize >= res.data.total,
+        data: songs,
+    };
+}
+const qualityLevels = {
+    low: "128k",
+    standard: "320k",
+    high: "flac",
+    super: "flac24bit",
+};
+// by ikun0014&ThomasYou
+async function getMediaSource(musicItem, quality) {
+    try {
+        let ikun = (await (0, axios_1.default)({
+            method: "GET",
+            url: `http://110.42.41.81:1314/url/kg/${musicItem.id}/${qualityLevels[quality]}`,
+            xsrfCookieName: "XSRF-TOKEN",
+            withCredentials: true,
+        })).data;
+        return {
+            url: ikun.data,
+        };
+    } catch (err) {
+        return null;
+    }
+}
+async function getLyric(musicItem) {
+    let lrc, res = (await axios_1.default.get("http://krcs.kugou.com/search", {
+        params: {
+            ver: "1",
+            man: "yes",
+            client: "mobi",
+            keyword: "",
+            duration: "",
+            hash: musicItem.id,
+            album_audio_id: "",
+        },
+    })).data.candidates;
+    for (let _ of res) {
+        if (_ && _.id && _.accesskey) {
+            lrc = (await axios_1.default.get("http://lyrics.kugou.com/download", {
+                params: {
+                    ver: "1",
+                    client: "pc",
+                    id: _.id,
+                    accesskey: _.accesskey,
+                    fmt: "lrc",
+                    charset: "utf8",
+                },
+            })).data.content;
+            if (lrc && lrc != "") {
+                break;
+            }
+        }
+    }
+    return {
+        rawLrc: CryptoJS.enc.Base64.parse(lrc).toString(CryptoJS.enc.Utf8)
+    };
+}
 module.exports = {
     platform: "酷狗",
-    version: "0.1.6",
+    version: "0.1.7",
     author: '小趴菜',
     appVersion: ">0.1.0-alpha.0",
     srcUrl: "https://gitee.com/crisy/music-free-plugins/raw/release/dist/kugou/index.js",
@@ -430,7 +451,8 @@ module.exports = {
         }
     },
     getMediaSource,
-    getLyric: getMediaSource,
+    // getLyric: getMediaSource,
+    getLyric,
     getTopLists,
     getTopListDetail,
     getAlbumInfo,
