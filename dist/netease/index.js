@@ -84,7 +84,7 @@ function formatAlbumItem(_) {
 }
 function musicCanPlayFilter(_) {
     var _a;
-    return (_.fee === 0 || _.fee === 8) && (!_.privilege || ((_a = _.privilege) === null || _a === void 0 ? void 0 : _a.st) >= 0);
+    return true;
 }
 const pageSize = 30;
 async function searchBase(query, page, type) {
@@ -512,8 +512,8 @@ async function getMusicSheetInfo(sheet, page) {
 }
 module.exports = {
     platform: "网易云",
-    author: '猫大神',
-    version: "0.2.3",
+    author: '小趴菜',
+    version: "0.2.4",
     appVersion: ">0.1.0-alpha.0",
     srcUrl: "https://gitee.com/crisy/music-free-plugins/raw/release/dist/netease/index.js",
     cacheControl: "no-store",
@@ -522,7 +522,6 @@ module.exports = {
             "网易云移动端：APP点击分享，然后复制链接",
             "网易云H5/PC端：复制URL，或者直接输入歌单ID即可",
             "默认歌单无法导入，先新建一个空白歌单复制过去再导入新歌单即可",
-            "导入过程中会过滤掉所有VIP/试听/收费音乐，导入时间和歌单大小有关，请耐心等待",
         ],
     },
     supportedSearchType: ["music", "album", "sheet", "artist", "lyric"],

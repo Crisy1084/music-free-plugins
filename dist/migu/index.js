@@ -29,7 +29,7 @@ async function searchBase(query, page, type) {
     return data.data;
 }
 function musicCanPlayFilter(_) {
-    return _.mp3 || _.listenUrl || _.lisQq || _.lisCr;
+    return true;
 }
 async function searchMusic(query, page) {
     const data = await searchBase(query, page, 2);
@@ -548,14 +548,13 @@ async function getMediaSource(musicItem, quality) {
 }
 module.exports = {
     platform: "咪咕",
-    author: "猫大神",
-    version: "0.2.2",
+    author: "小趴菜",
+    version: "0.2.3",
     appVersion: ">0.1.0-alpha.0",
     hints: {
         importMusicSheet: [
             "咪咕APP：自建歌单-分享-复制链接，直接粘贴即可",
             "H5/PC端：复制URL并粘贴，或者直接输入纯数字歌单ID即可",
-            "导入过程中会过滤掉所有VIP/试听/收费音乐，导入时间和歌单大小有关，请耐心等待",
         ],
     },
     primaryKey: ["id", "copyrightId"],

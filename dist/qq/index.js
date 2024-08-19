@@ -60,7 +60,7 @@ const headers = {
     Cookie: "uin=",
 };
 const validSongFilter = (item) => {
-    return item.pay.pay_play === 0 || item.pay.payplay === 0;
+    return true;
 };
 async function searchBase(query, page, type) {
     const res = (await (0, axios_1.default)({
@@ -485,15 +485,14 @@ async function getMusicSheetInfo(sheet, page) {
 }
 module.exports = {
     platform: "QQ音乐",
-    author: "猫大神",
-    version: "0.2.2-alpha.3",
+    author: "小趴菜",
+    version: "0.2.3",
     srcUrl: "https://gitee.com/crisy/music-free-plugins/raw/release/dist/qq/index.js",
     cacheControl: "no-cache",
     hints: {
         importMusicSheet: [
             "QQ音乐APP：自建歌单-分享-分享到微信好友/QQ好友；然后点开并复制链接，直接粘贴即可",
             "H5：复制URL并粘贴，或者直接输入纯数字歌单ID即可",
-            "导入过程中会过滤掉所有VIP/试听/收费音乐，导入时间和歌单大小有关，请耐心等待",
         ],
     },
     primaryKey: ["id", "songmid"],
