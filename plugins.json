@@ -43,12 +43,12 @@
         {
             "name": "咪咕",
             "url": "https://gitee.com/crisy/music-free-plugins/raw/release/dist/migu/index.js",
-            "version": "0.2.2"
+            "version": "0.2.3"
         },
         {
             "name": "网易云",
             "url": "https://gitee.com/crisy/music-free-plugins/raw/release/dist/netease/index.js",
-            "version": "0.2.3"
+            "version": "0.2.4"
         },
         {
             "name": "千千音乐",
@@ -63,7 +63,7 @@
         {
             "name": "QQ音乐",
             "url": "https://gitee.com/crisy/music-free-plugins/raw/release/dist/qq/index.js",
-            "version": "0.2.2-alpha.3"
+            "version": "0.2.4"
         },
         {
             "name": "WebDAV",
