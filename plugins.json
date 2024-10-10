@@ -23,12 +23,12 @@
         {
             "name": "酷狗",
             "url": "https://gitee.com/crisy/music-free-plugins/raw/release/dist/kugou/index.js",
-            "version": "0.1.6"
+            "version": "0.1.9"
         },
         {
             "name": "酷我",
             "url": "https://gitee.com/crisy/music-free-plugins/raw/release/dist/kuwo/index.js",
-            "version": "0.1.8"
+            "version": "0.1.9"
         },
         {
             "name": "猫耳FM",
@@ -63,7 +63,7 @@
         {
             "name": "QQ音乐",
             "url": "https://gitee.com/crisy/music-free-plugins/raw/release/dist/qq/index.js",
-            "version": "0.2.4"
+            "version": "0.2.5"
         },
         {
             "name": "WebDAV",
