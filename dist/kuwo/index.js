@@ -1,15 +1,20 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 const axios_1 = require("axios");
 const he = require("he");
 const pageSize = 30;
+
 function artworkShort2Long(albumpicShort) {
     var _a;
-    const firstSlashOfAlbum = (_a = albumpicShort === null || albumpicShort === void 0 ? void 0 : albumpicShort.indexOf("/")) !== null && _a !== void 0 ? _a : -1;
-    return firstSlashOfAlbum !== -1
-        ? `https://img4.kuwo.cn/star/albumcover/1080${albumpicShort.slice(firstSlashOfAlbum)}`
-        : undefined;
+    const firstSlashOfAlbum = (_a = albumpicShort === null || albumpicShort === void 0 ? void 0 : albumpicShort.indexOf(
+        "/")) !== null && _a !== void 0 ? _a : -1;
+    return firstSlashOfAlbum !== -1 ?
+        `https://img4.kuwo.cn/star/albumcover/1080${albumpicShort.slice(firstSlashOfAlbum)}` :
+        undefined;
 }
+
 function formatMusicItem(_) {
     return {
         id: _.MUSICRID.replace("MUSIC_", ""),
@@ -22,6 +27,7 @@ function formatMusicItem(_) {
         formats: _.FORMATS,
     };
 }
+
 function formatAlbumItem(_) {
     var _a;
     return {
@@ -34,6 +40,7 @@ function formatAlbumItem(_) {
         artistId: _.artistid,
     };
 }
+
 function formatArtistItem(_) {
     return {
         id: _.ARTISTID,
@@ -44,6 +51,7 @@ function formatArtistItem(_) {
         worksNum: _.SONGNUM
     };
 }
+
 function formatMusicSheet(_) {
     return {
         id: _.playlistid,
@@ -218,8 +226,7 @@ async function getArtistAlbumWorks(artistItem, page) {
 async function getArtistWorks(artistItem, page, type) {
     if (type === "music") {
         return getArtistMusicWorks(artistItem, page);
-    }
-    else if (type === "album") {
+    } else if (type === "album") {
         return getArtistAlbumWorks(artistItem, page);
     }
 }
@@ -283,7 +290,8 @@ async function getTopLists() {
             var _a, _b;
             return ({
                 id: _.sourceid,
-                coverImg: (_b = (_a = _.pic5) !== null && _a !== void 0 ? _a : _.pic2) !== null && _b !== void 0 ? _b : _.pic,
+                coverImg: (_b = (_a = _.pic5) !== null && _a !== void 0 ? _a : _.pic2) !==
+                    null && _b !== void 0 ? _b : _.pic,
                 title: _.name,
                 description: _.intro,
             });
@@ -339,10 +347,12 @@ async function importMusicSheet(urlLike) {
     var _a, _b;
     let id;
     if (!id) {
-        id = (_a = urlLike.match(/https?:\/\/www\/kuwo\.cn\/playlist_detail\/(\d+)/)) === null || _a === void 0 ? void 0 : _a[1];
+        id = (_a = urlLike.match(/https?:\/\/www\/kuwo\.cn\/playlist_detail\/(\d+)/)) === null || _a === void 0 ?
+            void 0 : _a[1];
     }
     if (!id) {
-        id = (_b = urlLike.match(/https?:\/\/m\.kuwo\.cn\/h5app\/playlist\/(\d+)/)) === null || _b === void 0 ? void 0 : _b[1];
+        id = (_b = urlLike.match(/https?:\/\/m\.kuwo\.cn\/h5app\/playlist\/(\d+)/)) === null || _b === void 0 ?
+            void 0 : _b[1];
     }
     if (!id) {
         id = urlLike.match(/^\s*(\d+)\s*$/);
@@ -369,8 +379,7 @@ async function importMusicSheet(urlLike) {
                 artistId: _.artistid,
                 formats: _.formats,
             })));
-        }
-        catch (_c) { }
+        } catch (_c) { }
         await new Promise((resolve) => {
             setTimeout(() => {
                 resolve();
@@ -381,7 +390,9 @@ async function importMusicSheet(urlLike) {
     return musicList;
 }
 async function getRecommendSheetTags() {
-    const res = (await axios_1.default.get(`http://wapi.kuwo.cn/api/pc/classify/playlist/getTagList?cmd=rcm_keyword_playlist&user=0&prod=kwplayer_pc_9.0.5.0&vipver=9.0.5.0&source=kwplayer_pc_9.0.5.0&loginUid=0&loginSid=0&appUid=76039576`)).data.data;
+    const res = (await axios_1.default.get(
+        `http://wapi.kuwo.cn/api/pc/classify/playlist/getTagList?cmd=rcm_keyword_playlist&user=0&prod=kwplayer_pc_9.0.5.0&vipver=9.0.5.0&source=kwplayer_pc_9.0.5.0&loginUid=0&loginSid=0&appUid=76039576`
+    )).data.data;
     const data = res
         .map((group) => ({
             title: group.name,
@@ -424,18 +435,21 @@ async function getRecommendSheetsByTag(tag, page) {
     let res;
     if (tag.id) {
         if (tag.digest === "10000") {
-            res = (await axios_1.default.get(`http://wapi.kuwo.cn/api/pc/classify/playlist/getTagPlayList?loginUid=0&loginSid=0&appUid=76039576&pn=${page - 1}&id=${tag.id}&rn=${pageSize}`)).data.data;
-        }
-        else {
-            let digest43Result = (await axios_1.default.get(`http://mobileinterfaces.kuwo.cn/er.s?type=get_pc_qz_data&f=web&id=${tag.id}&prod=pc`)).data;
+            res = (await axios_1.default.get(
+                `http://wapi.kuwo.cn/api/pc/classify/playlist/getTagPlayList?loginUid=0&loginSid=0&appUid=76039576&pn=${page - 1}&id=${tag.id}&rn=${pageSize}`
+            )).data.data;
+        } else {
+            let digest43Result = (await axios_1.default.get(
+                `http://mobileinterfaces.kuwo.cn/er.s?type=get_pc_qz_data&f=web&id=${tag.id}&prod=pc`)).data;
             res = {
                 total: 0,
                 data: digest43Result.reduce((prev, curr) => [...prev, ...curr.list]),
             };
         }
-    }
-    else {
-        res = (await axios_1.default.get(`https://wapi.kuwo.cn/api/pc/classify/playlist/getRcmPlayList?loginUid=0&loginSid=0&appUid=76039576&&pn=${page - 1}&rn=${pageSize}&order=hot`)).data.data;
+    } else {
+        res = (await axios_1.default.get(
+            `https://wapi.kuwo.cn/api/pc/classify/playlist/getRcmPlayList?loginUid=0&loginSid=0&appUid=76039576&&pn=${page - 1}&rn=${pageSize}&order=hot`
+        )).data.data;
     }
     const isEnd = page * pageSize >= res.total;
     return {
@@ -473,14 +487,10 @@ const qualityLevels = {
 };
 async function getMediaSource(musicItem, quality) {
     const res = (
-        await axios_1.default.get(`https://render.niuma666bet.buzz/url/kw/${musicItem.id}/${qualityLevels[quality]}`, {
-            headers: {
-                "X-Request-Key": "share-v2"
-            },
-        })
+        await axios_1.default.get(`http://110.42.38.239:1314/url/kw/${musicItem.id}/${qualityLevels[quality]}`)
     ).data;
     return {
-        url: res.url,
+        url: res.data,
     };
 }
 async function getMusicInfo(musicItem) {
@@ -494,8 +504,7 @@ async function getMusicInfo(musicItem) {
     let picUrl;
     if (originalUrl.includes("starheads/")) {
         picUrl = originalUrl.replace(/starheads\/\d+/, "starheads/800");
-    }
-    else if (originalUrl.includes("albumcover/")) {
+    } else if (originalUrl.includes("albumcover/")) {
         picUrl = originalUrl.replace(/albumcover\/\d+/, "albumcover/800");
     }
     return {
@@ -505,7 +514,7 @@ async function getMusicInfo(musicItem) {
 module.exports = {
     platform: "酷我",
     author: '小趴菜',
-    version: "0.1.8",
+    version: "0.1.9",
     appVersion: ">0.1.0-alpha.0",
     srcUrl: "https://gitee.com/crisy/music-free-plugins/raw/release/dist/kuwo/index.js",
     cacheControl: "no-cache",

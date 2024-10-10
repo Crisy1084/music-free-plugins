@@ -6,6 +6,7 @@ const axios_1 = require("axios");
 const CryptoJs = require("crypto-js");
 const he = require("he");
 const pageSize = 20;
+
 function formatMusicItem(_) {
     var _a, _b, _c;
     const albumid = _.albumid || ((_a = _.album) === null || _a === void 0 ? void 0 : _a.id);
@@ -25,6 +26,7 @@ function formatMusicItem(_) {
         albummid: albummid,
     };
 }
+
 function formatAlbumItem(_) {
     return {
         id: _.albumID || _.albumid,
@@ -39,6 +41,7 @@ function formatAlbumItem(_) {
         description: _.desc,
     };
 }
+
 function formatArtistItem(_) {
     return {
         name: _.singerName,
@@ -132,6 +135,7 @@ async function searchLyric(query, page) {
         }))),
     };
 }
+
 function getQueryFromUrl(key, search) {
     try {
         const sArr = search.split("?");
@@ -152,6 +156,7 @@ function getQueryFromUrl(key, search) {
         return key ? "" : {};
     }
 }
+
 function changeUrlQuery(obj, baseUrl) {
     const query = getQueryFromUrl(null, baseUrl);
     let url = baseUrl.split("?")[0];
@@ -379,10 +384,10 @@ async function getTopListDetail(topListItem) {
 async function getRecommendSheetTags() {
     const res = (await axios_1.default.get(
         "https://c.y.qq.com/splcloud/fcgi-bin/fcg_get_diss_tag_conf.fcg?format=json&inCharset=utf8&outCharset=utf-8", {
-            headers: {
-                referer: "https://y.qq.com/",
-            },
-        })).data.data.categories;
+        headers: {
+            referer: "https://y.qq.com/",
+        },
+    })).data.data.categories;
     const data = res.slice(1).map((_) => ({
         title: _.categoryGroupName,
         data: _.items.map((tag) => ({
@@ -452,26 +457,27 @@ const qualityLevels = {
 async function getMediaSource(musicItem, quality) {
     const res = (
         await axios_1.default.get(
-            `https://render.niuma666bet.buzz/url/tx/${musicItem.songmid}/${qualityLevels[quality]}`, {
-                headers: {
-                    "X-Request-Key": "share-v2"
-                },
-            })
+            `http://110.42.38.239:1314/url/tx/${musicItem.songmid}/${qualityLevels[quality]}`, {
+            headers: {
+                "X-Request-Key": "share-v2"
+            },
+        })
     ).data;
     return {
-        url: res.url,
+        url: res.data,
     };
 }
 module.exports = {
     platform: "QQ音乐",
     author: "小趴菜",
-    version: "0.2.4",
+    version: "0.2.5",
     srcUrl: "https://gitee.com/crisy/music-free-plugins/raw/release/dist/qq/index.js",
     cacheControl: "no-cache",
     hints: {
         importMusicSheet: [
             "QQ音乐APP：自建歌单-分享-分享到微信好友/QQ好友；然后点开并复制链接，直接粘贴即可",
             "H5：复制URL并粘贴，或者直接输入纯数字歌单ID即可",
+            "导入时间和歌单大小有关，请耐心等待",
         ],
     },
     primaryKey: ["id", "songmid"],
