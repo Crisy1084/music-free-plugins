@@ -7,13 +7,15 @@
 
 | 名称 | 地址 | 备注 |
 | ------ | ------ | ------ |
+| 源插件聚合器 | https://github.com/xxnuo/MusicFreePluginsHub | 聚合仓库 |
 | Maotoumao | https://gitee.com/maotoumao/MusicFreePlugins/raw/master/plugins.json | 官方源 |
-| ikun | https://gitee.com/ikun0014/musicfree/raw/master/plugins.json | ikun音乐 |
+| ikun | https://mf.ikunshare.com/plugins.json | ikun音乐 |
 | Huibq | https://raw.niuma666bet.buzz/Huibq/keep-alive/master/Music_Free/myPlugins.json | 反复请求会导致封禁IP |
 | acoolbook | https://gitlab.com/acoolbook/musicfree/-/raw/main/music.json | 扫地僧 |
 | ThomasYou | https://gitee.com/ThomasYou/musicfree/raw/master/dist/plugins.json | 组合源
 | 刘明野 | https://blog.metasola.cn/MyFreeMp3.js | 单音乐源 |
 | 阿明搜集 | https://text.is/musicfree | 导航 |
+
 
 
 
