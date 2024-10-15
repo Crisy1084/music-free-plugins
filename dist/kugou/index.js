@@ -1,5 +1,7 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 const axios_1 = require("axios");
 const cheerio_1 = require("cheerio");
 const CryptoJs = require("crypto-js");
@@ -175,10 +177,15 @@ const qualityLevels = {
 };
 async function getMediaSource(musicItem, quality) {
     const res = (
-        await axios_1.default.get(`http://110.42.38.239:1314/url/kg/${musicItem.id}/${qualityLevels[quality]}`)
+        await axios_1.default.get(
+            `https://lxmusicapi.onrender.com/url/kg/${musicItem.id}/${qualityLevels[quality]}`, {
+            headers: {
+                "X-Request-Key": "share-v2"
+            },
+        })
     ).data;
     return {
-        url: res.data,
+        url: res.url,
     };
 }
 async function getTopLists() {
@@ -200,7 +207,6 @@ async function getTopLists() {
             data: [],
         },
     ];
-
     const extra = {
         title: "其他",
         data: [],
@@ -400,10 +406,9 @@ async function importMusicSheet(urlLike) {
     }
     return musicList;
 }
-
 module.exports = {
     platform: "酷狗",
-    version: "0.1.9",
+    version: "0.2.0",
     author: '小趴菜',
     appVersion: ">0.1.0-alpha.0",
     srcUrl: "https://gitee.com/crisy/music-free-plugins/raw/release/dist/kugou/index.js",
@@ -413,7 +418,7 @@ module.exports = {
     hints: {
         importMusicSheet: [
             "仅支持酷狗APP通过酷狗码导入，输入纯数字酷狗码即可。",
-            "导入过程中会过滤掉所有VIP/试听/收费音乐，导入时间和歌单大小有关，请耐心等待",
+            "导入时间和歌单大小有关，请耐心等待",
         ],
     },
     supportedSearchType: ["music", "album", "sheet"],
