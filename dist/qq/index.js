@@ -384,10 +384,10 @@ async function getTopListDetail(topListItem) {
 async function getRecommendSheetTags() {
     const res = (await axios_1.default.get(
         "https://c.y.qq.com/splcloud/fcgi-bin/fcg_get_diss_tag_conf.fcg?format=json&inCharset=utf8&outCharset=utf-8", {
-        headers: {
-            referer: "https://y.qq.com/",
-        },
-    })).data.data.categories;
+            headers: {
+                referer: "https://y.qq.com/",
+            },
+        })).data.data.categories;
     const data = res.slice(1).map((_) => ({
         title: _.categoryGroupName,
         data: _.items.map((tag) => ({
@@ -457,11 +457,11 @@ const qualityLevels = {
 async function getMediaSource(musicItem, quality) {
     const res = (
         await axios_1.default.get(
-            `http://110.42.38.239:1314/url/tx/${musicItem.songmid}/${qualityLevels[quality]}`, {
-            headers: {
-                "X-Request-Key": "share-v2"
-            },
-        })
+            `https://lxmusic.ikunshare.com/url/tx/${musicItem.songmid}/${qualityLevels[quality]}`, {
+                headers: {
+                    "X-Request-Key": "share-v2"
+                },
+            })
     ).data;
     return {
         url: res.data,
@@ -470,7 +470,7 @@ async function getMediaSource(musicItem, quality) {
 module.exports = {
     platform: "QQ音乐",
     author: "小趴菜",
-    version: "0.2.5",
+    version: "0.2.6",
     srcUrl: "https://gitee.com/crisy/music-free-plugins/raw/release/dist/qq/index.js",
     cacheControl: "no-cache",
     hints: {
