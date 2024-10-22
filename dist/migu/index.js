@@ -1,5 +1,7 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 const axios_1 = require("axios");
 const cheerio_1 = require("cheerio");
 const CryptoJS = require("crypto-js");
@@ -25,15 +27,21 @@ async function searchBase(query, page, type) {
         pgc: page,
         rows: searchRows,
     };
-    const data = await axios_1.default.get("https://m.music.migu.cn/migu/remoting/scr_search_tag", { headers, params });
+    const data = await axios_1.default.get("https://m.music.migu.cn/migu/remoting/scr_search_tag", {
+        headers,
+        params
+    });
     return data.data;
 }
+// function musicCanPlayFilter(_) {
+//     return _.lisSQ || _.lisHQ || _.lisBq || _.lisCr || _.lisQq || _.listenUrl ||  _.mp3;
+// }
 function musicCanPlayFilter(_) {
-    return true;
+    return _.mp3 || _.listenUrl || _.lisQq || _.lisCr;
 }
 async function searchMusic(query, page) {
     const data = await searchBase(query, page, 2);
-    const musics = data.musics.filter(musicCanPlayFilter).map((_) => ({
+    const musics = data.musics.map((_) => ({
         id: _.id,
         artwork: _.cover,
         title: _.songName,
@@ -52,7 +60,7 @@ async function searchAlbum(query, page) {
     const data = await searchBase(query, page, 4);
     const albums = data.albums.map((_) => ({
         id: _.id,
-        artwork: _.albumPicM,
+        artwork: _.albumPicL,
         title: _.title,
         date: _.publishDate,
         artist: (_.singer || []).map((s) => s.name).join(","),
@@ -69,7 +77,7 @@ async function searchArtist(query, page) {
     const artists = data.artists.map((result) => ({
         name: result.title,
         id: result.id,
-        avatar: result.artistPicM,
+        avatar: result.artistPicL,
         worksNum: result.songNum,
     }));
     return {
@@ -109,7 +117,6 @@ async function searchLyric(query, page) {
         data: lyrics,
     };
 }
-searchLyric('夜曲', 1).then(console.log);
 async function getArtistAlbumWorks(artistItem, page) {
     const headers = {
         accept: "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
@@ -121,7 +128,8 @@ async function getArtistAlbumWorks(artistItem, page) {
         "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36",
         "Cache-Control": "max-age=0",
     };
-    const html = (await axios_1.default.get(`https://music.migu.cn/v3/music/artist/${artistItem.id}/album?page=${page}`, {
+    const html = (await axios_1.default.get(
+        `https://music.migu.cn/v3/music/artist/${artistItem.id}/album?page=${page}`, {
         headers,
     })).data;
     const $ = (0, cheerio_1.load)(html);
@@ -159,7 +167,8 @@ async function getArtistWorks(artistItem, page, type) {
             "User-Agent": "Mozilla/5.0 (Linux; Android 6.0.1; Moto G (4)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Mobile Safari/537.36 Edg/89.0.774.68",
             "X-Requested-With": "XMLHttpRequest",
         };
-        const musicList = (await axios_1.default.get("https://m.music.migu.cn/migu/remoting/cms_artist_song_list_tag", {
+        const musicList = (await axios_1.default.get(
+            "https://m.music.migu.cn/migu/remoting/cms_artist_song_list_tag", {
             headers,
             params: {
                 artistId: artistItem.id,
@@ -168,9 +177,9 @@ async function getArtistWorks(artistItem, page, type) {
             },
         })).data || {};
         return {
-            data: musicList.result.results.filter(musicCanPlayFilter).map((_) => ({
+            data: musicList.result.results.map((_) => ({
                 id: _.songId,
-                artwork: _.picM,
+                artwork: _.picL,
                 title: _.songName,
                 artist: (_.singerName || []).join(", "),
                 album: _.albumName,
@@ -180,8 +189,7 @@ async function getArtistWorks(artistItem, page, type) {
                 singerId: _.singerId,
             })),
         };
-    }
-    else if (type === "album") {
+    } else if (type === "album") {
         return getArtistAlbumWorks(artistItem, page);
     }
 }
@@ -234,21 +242,31 @@ async function getMusicSheetInfo(sheet, page) {
     return {
         isEnd,
         musicList: res.items
-            .filter((item) => { var _a; return ((_a = item === null || item === void 0 ? void 0 : item.fullSong) === null || _a === void 0 ? void 0 : _a.vipFlag) === 0; })
+            .filter((item) => {
+                var _a;
+                return ((_a = item === null || item === void 0 ? void 0 : item.fullSong) === null || _a ===
+                    void 0 ? void 0 : _a.vipFlag) === 0;
+            })
             .map((_) => {
-            var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k;
-            return ({
-                id: _.id,
-                artwork: ((_a = _.mediumPic) === null || _a === void 0 ? void 0 : _a.startsWith("//"))
-                    ? `http:${_.mediumPic}`
-                    : _.mediumPic,
-                title: _.name,
-                artist: (_f = (_e = (_d = (_c = (_b = _.singers) === null || _b === void 0 ? void 0 : _b.map) === null || _c === void 0 ? void 0 : _c.call(_b, (_) => _.name)) === null || _d === void 0 ? void 0 : _d.join) === null || _e === void 0 ? void 0 : _e.call(_d, ",")) !== null && _f !== void 0 ? _f : "",
-                album: (_h = (_g = _.album) === null || _g === void 0 ? void 0 : _g.albumName) !== null && _h !== void 0 ? _h : "",
-                copyrightId: _.copyrightId,
-                singerId: (_k = (_j = _.singers) === null || _j === void 0 ? void 0 : _j[0]) === null || _k === void 0 ? void 0 : _k.id,
-            });
-        }),
+                var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k;
+                return ({
+                    id: _.id,
+                    artwork: ((_a = _.mediumPic) === null || _a === void 0 ? void 0 : _a.startsWith(
+                        "//")) ?
+                        `http:${_.mediumPic}` :
+                        _.mediumPic,
+                    title: _.name,
+                    artist: (_f = (_e = (_d = (_c = (_b = _.singers) === null || _b === void 0 ? void 0 :
+                        _b.map) === null || _c === void 0 ? void 0 : _c.call(_b, (_) =>
+                            _.name)) === null || _d === void 0 ? void 0 : _d.join) === null || _e ===
+                        void 0 ? void 0 : _e.call(_d, ",")) !== null && _f !== void 0 ? _f : "",
+                    album: (_h = (_g = _.album) === null || _g === void 0 ? void 0 : _g.albumName) !==
+                        null && _h !== void 0 ? _h : "",
+                    copyrightId: _.copyrightId,
+                    singerId: (_k = (_j = _.singers) === null || _j === void 0 ? void 0 : _j[0]) ===
+                        null || _k === void 0 ? void 0 : _k.id,
+                });
+            }),
     };
 }
 async function importMusicSheet(urlLike) {
@@ -258,13 +276,15 @@ async function importMusicSheet(urlLike) {
         id = (urlLike.match(/https?:\/\/music\.migu\.cn\/v3\/(?:my|music)\/playlist\/([0-9]+)/) || [])[1];
     }
     if (!id) {
-        id = (urlLike.match(/https?:\/\/h5\.nf\.migu\.cn\/app\/v4\/p\/share\/playlist\/index.html\?.*id=([0-9]+)/) || [])[1];
+        id = (urlLike.match(/https?:\/\/h5\.nf\.migu\.cn\/app\/v4\/p\/share\/playlist\/index.html\?.*id=([0-9]+)/) ||
+            [])[1];
     }
     if (!id) {
         id = (_a = urlLike.match(/^\s*(\d+)\s*$/)) === null || _a === void 0 ? void 0 : _a[1];
     }
     if (!id) {
-        const tempUrl = (_b = urlLike.match(/(https?:\/\/c\.migu\.cn\/[\S]+)\?/)) === null || _b === void 0 ? void 0 : _b[1];
+        const tempUrl = (_b = urlLike.match(/(https?:\/\/c\.migu\.cn\/[\S]+)\?/)) === null || _b === void 0 ? void 0 :
+            _b[1];
         if (tempUrl) {
             const request = (await axios_1.default.get(tempUrl, {
                 headers: {
@@ -276,7 +296,8 @@ async function importMusicSheet(urlLike) {
                     return (status >= 200 && status < 300) || status === 403;
                 },
             })).request;
-            const realpath = (_c = request === null || request === void 0 ? void 0 : request.path) !== null && _c !== void 0 ? _c : request === null || request === void 0 ? void 0 : request.responseURL;
+            const realpath = (_c = request === null || request === void 0 ? void 0 : request.path) !== null && _c !==
+                void 0 ? _c : request === null || request === void 0 ? void 0 : request.responseURL;
             if (realpath) {
                 id = (_d = realpath.match(/id=(\d+)/)) === null || _d === void 0 ? void 0 : _d[1];
             }
@@ -294,14 +315,16 @@ async function importMusicSheet(urlLike) {
         "X-Requested-With": "XMLHttpRequest",
         Referer: "https://m.music.migu.cn",
     };
-    const res = (await axios_1.default.get(`https://m.music.migu.cn/migu/remoting/query_playlist_by_id_tag?onLine=1&queryChannel=0&createUserId=migu&contentCountMin=5&playListId=${id}`, {
+    const res = (await axios_1.default.get(
+        `https://m.music.migu.cn/migu/remoting/query_playlist_by_id_tag?onLine=1&queryChannel=0&createUserId=migu&contentCountMin=5&playListId=${id}`, {
         headers,
     })).data;
     const contentCount = parseInt(res.rsp.playList[0].contentCount);
     const cids = [];
     let pageNo = 1;
     while ((pageNo - 1) * 20 < contentCount) {
-        const listPage = (await axios_1.default.get(`https://music.migu.cn/v3/music/playlist/${id}?page=${pageNo}`)).data;
+        const listPage = (await axios_1.default.get(`https://music.migu.cn/v3/music/playlist/${id}?page=${pageNo}`))
+            .data;
         const $ = (0, cheerio_1.load)(listPage);
         $(".row.J_CopySong").each((i, v) => {
             cids.push($(v).attr("data-cid"));
@@ -322,17 +345,20 @@ async function importMusicSheet(urlLike) {
     return songs.items
         .filter((_) => _.vipFlag === 0)
         .map((_) => {
-        var _a, _b, _c, _d, _e, _f;
-        return ({
-            id: _.songId,
-            artwork: _.cover,
-            title: _.songName,
-            artist: (_b = (_a = _.singers) === null || _a === void 0 ? void 0 : _a.map((_) => _.artistName)) === null || _b === void 0 ? void 0 : _b.join(", "),
-            album: (_d = (_c = _.albums) === null || _c === void 0 ? void 0 : _c[0]) === null || _d === void 0 ? void 0 : _d.albumName,
-            copyrightId: _.copyrightId,
-            singerId: (_f = (_e = _.singers) === null || _e === void 0 ? void 0 : _e[0]) === null || _f === void 0 ? void 0 : _f.artistId,
+            var _a, _b, _c, _d, _e, _f;
+            return ({
+                id: _.songId,
+                artwork: _.cover,
+                title: _.songName,
+                artist: (_b = (_a = _.singers) === null || _a === void 0 ? void 0 : _a.map((_) => _.artistName)) ===
+                    null || _b === void 0 ? void 0 : _b.join(", "),
+                album: (_d = (_c = _.albums) === null || _c === void 0 ? void 0 : _c[0]) === null || _d ===
+                    void 0 ? void 0 : _d.albumName,
+                copyrightId: _.copyrightId,
+                singerId: (_f = (_e = _.singers) === null || _e === void 0 ? void 0 : _e[0]) === null ||
+                    _f === void 0 ? void 0 : _f.artistId,
+            });
         });
-    });
 }
 async function getTopLists() {
     const jianjiao = {
@@ -402,7 +428,8 @@ async function getTopLists() {
     };
     return [jianjiao, tese];
 }
-const UA = "Mozilla/5.0 (Linux; Android 6.0.1; Moto G (4)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Mobile Safari/537.36 Edg/89.0.774.68";
+const UA =
+    "Mozilla/5.0 (Linux; Android 6.0.1; Moto G (4)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Mobile Safari/537.36 Edg/89.0.774.68";
 const By = CryptoJS.MD5(UA).toString();
 async function getTopListDetail(topListItem) {
     const res = await axios_1.default.get(`https://m.music.migu.cn/migumusic/h5/billboard/home`, {
@@ -421,22 +448,26 @@ async function getTopListDetail(topListItem) {
             By,
         },
     });
-    return Object.assign(Object.assign({}, topListItem), { musicList: res.data.data.songs.items
-            .filter((_) => _.fullSong.vipFlag === 0)
+    return Object.assign(Object.assign({}, topListItem), {
+        musicList: res.data.data.songs.items
             .map((_) => {
-            var _a, _b, _c, _d, _e, _f;
-            return ({
-                id: _.id,
-                artwork: ((_a = _.mediumPic) === null || _a === void 0 ? void 0 : _a.startsWith("//"))
-                    ? `https:${_.mediumPic}`
-                    : _.mediumPic,
-                title: _.name,
-                artist: (_c = (_b = _.singers) === null || _b === void 0 ? void 0 : _b.map((_) => _.name)) === null || _c === void 0 ? void 0 : _c.join(", "),
-                album: (_d = _.album) === null || _d === void 0 ? void 0 : _d.albumName,
-                copyrightId: _.copyrightId,
-                singerId: (_f = (_e = _.singers) === null || _e === void 0 ? void 0 : _e[0]) === null || _f === void 0 ? void 0 : _f.id,
-            });
-        }) });
+                var _a, _b, _c, _d, _e, _f;
+                return ({
+                    id: _.id,
+                    artwork: ((_a = _.mediumPic) === null || _a === void 0 ? void 0 : _a.startsWith(
+                        "//")) ?
+                        `https:${_.mediumPic}` :
+                        _.mediumPic,
+                    title: _.name,
+                    artist: (_c = (_b = _.singers) === null || _b === void 0 ? void 0 : _b.map(
+                        (_) => _.name)) === null || _c === void 0 ? void 0 : _c.join(", "),
+                    album: (_d = _.album) === null || _d === void 0 ? void 0 : _d.albumName,
+                    copyrightId: _.copyrightId,
+                    singerId: (_f = (_e = _.singers) === null || _e === void 0 ? void 0 : _e[0]) ===
+                        null || _f === void 0 ? void 0 : _f.id,
+                });
+            })
+    });
 }
 async function getRecommendSheetTags() {
     const allTags = (await axios_1.default.get("https://m.music.migu.cn/migumusic/h5/playlist/allTag", {
@@ -512,44 +543,25 @@ async function getRecommendSheetsByTag(sheetItem, page) {
         data,
     };
 }
-let lastSource = null;
+const qualityLevels = {
+    low: "128k",
+    standard: "320k",
+    high: "flac",
+    super: "flac24bit",
+};
 async function getMediaSource(musicItem, quality) {
-    if (quality === "standard" && musicItem.url) {
-        return {
-            url: musicItem.url,
-        };
-    }
-    else if (quality === "standard") {
-        const headers = {
-            Accept: "application/json, text/javascript, */*; q=0.01",
-            "Accept-Encoding": "gzip, deflate, br",
-            "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
-            Connection: "keep-alive",
-            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-            Host: "m.music.migu.cn",
-            Referer: `https://m.music.migu.cn/migu/l/?s=149&p=163&c=5200&j=l&id=${musicItem.copyrightId}`,
-            "Sec-Fetch-Dest": "empty",
-            "Sec-Fetch-Mode": "cors",
-            "Sec-Fetch-Site": "same-origin",
-            "User-Agent": "Mozilla/5.0 (Linux; Android 6.0.1; Moto G (4)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Mobile Safari/537.36 Edg/89.0.774.68",
-            "X-Requested-With": "XMLHttpRequest",
-        };
-        const result = (await axios_1.default.get("https://m.music.migu.cn/migu/remoting/cms_detail_tag", {
-            headers,
-            params: {
-                cpid: musicItem.copyrightId,
-            },
-        })).data.data;
-        return {
-            artwork: musicItem.artwork || result.picM,
-            url: result.listenUrl || result.listenQq || result.lisCr,
-        };
-    }
+    const res = (
+        await axios_1.default.get(
+            `https://lxmusic.ikunshare.com/url/mg/${musicItem.id}/${qualityLevels[quality]}`)
+    ).data;
+    return {
+        url: res.data,
+    };
 }
 module.exports = {
     platform: "咪咕",
     author: "小趴菜",
-    version: "0.2.3",
+    version: "0.2.4",
     appVersion: ">0.1.0-alpha.0",
     hints: {
         importMusicSheet: [
@@ -558,7 +570,7 @@ module.exports = {
         ],
     },
     primaryKey: ["id", "copyrightId"],
-    cacheControl: "no-cache",
+    cacheControl: "cache",
     srcUrl: "https://gitee.com/crisy/music-free-plugins/raw/release/dist/migu/index.js",
     supportedSearchType: ["music", "album", "sheet", "artist", "lyric"],
     getMediaSource,
@@ -594,34 +606,37 @@ module.exports = {
             "User-Agent": "Mozilla/5.0 (Linux; Android 6.0.1; Moto G (4)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Mobile Safari/537.36 Edg/89.0.774.68",
             "X-Requested-With": "XMLHttpRequest",
         };
-        const musicList = (await axios_1.default.get("https://m.music.migu.cn/migu/remoting/cms_album_song_list_tag", {
+        const musicList = (await axios_1.default.get(
+            "https://m.music.migu.cn/migu/remoting/cms_album_song_list_tag", {
             headers,
             params: {
                 albumId: albumItem.id,
                 pageSize: 30,
             },
         })).data || {};
-        const albumDesc = (await axios_1.default.get("https://m.music.migu.cn/migu/remoting/cms_album_detail_tag", {
+        const albumDesc = (await axios_1.default.get(
+            "https://m.music.migu.cn/migu/remoting/cms_album_detail_tag", {
             headers,
             params: {
                 albumId: albumItem.id,
             },
         })).data || {};
         return {
-            albumItem: { description: albumDesc.albumIntro },
+            albumItem: {
+                description: albumDesc.albumIntro
+            },
             musicList: musicList.result.results
-                .filter(musicCanPlayFilter)
                 .map((_) => ({
-                id: _.songId,
-                artwork: _.picM,
-                title: _.songName,
-                artist: (_.singerName || []).join(", "),
-                album: albumItem.title,
-                url: musicCanPlayFilter(_),
-                rawLrc: _.lyricLrc,
-                copyrightId: _.copyrightId,
-                singerId: _.singerId,
-            })),
+                    id: _.songId,
+                    artwork: _.picL,
+                    title: _.songName,
+                    artist: (_.singerName || []).join(", "),
+                    album: albumItem.title,
+                    url: musicCanPlayFilter(_),
+                    rawLrc: _.lyricLrc,
+                    copyrightId: _.copyrightId,
+                    singerId: _.singerId,
+                })),
         };
     },
     getArtistWorks: getArtistWorks,

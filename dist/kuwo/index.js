@@ -487,7 +487,8 @@ const qualityLevels = {
 };
 async function getMediaSource(musicItem, quality) {
     const res = (
-        await axios_1.default.get(`http://110.42.38.239:1314/url/kw/${musicItem.id}/${qualityLevels[quality]}`)
+        await axios_1.default.get(
+            `https://lxmusic.ikunshare.com/url/kw/${musicItem.id}/${qualityLevels[quality]}`)
     ).data;
     return {
         url: res.data,
@@ -514,7 +515,7 @@ async function getMusicInfo(musicItem) {
 module.exports = {
     platform: "酷我",
     author: '小趴菜',
-    version: "0.1.9",
+    version: "0.2.0",
     appVersion: ">0.1.0-alpha.0",
     srcUrl: "https://gitee.com/crisy/music-free-plugins/raw/release/dist/kuwo/index.js",
     cacheControl: "no-cache",

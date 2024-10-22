@@ -178,14 +178,10 @@ const qualityLevels = {
 async function getMediaSource(musicItem, quality) {
     const res = (
         await axios_1.default.get(
-            `https://lxmusicapi.onrender.com/url/kg/${musicItem.id}/${qualityLevels[quality]}`, {
-            headers: {
-                "X-Request-Key": "share-v2"
-            },
-        })
+            `https://lxmusic.ikunshare.com/url/kg/${musicItem.id}/${qualityLevels[quality]}`)
     ).data;
     return {
-        url: res.url,
+        url: res.data,
     };
 }
 async function getTopLists() {
@@ -408,7 +404,7 @@ async function importMusicSheet(urlLike) {
 }
 module.exports = {
     platform: "酷狗",
-    version: "0.2.0",
+    version: "0.2.1",
     author: '小趴菜',
     appVersion: ">0.1.0-alpha.0",
     srcUrl: "https://gitee.com/crisy/music-free-plugins/raw/release/dist/kugou/index.js",
