@@ -27,7 +27,7 @@ module.exports = {
     platform: "全民K歌",
     version: "0.1.1",
     author: '猫大神',
-    srcUrl: "https://gitee.com/crisy/music-free-plugins/raw/release/dist/qmkg/index.js",
+    srcUrl: "https://github.com/Crisy1084/music-free-plugins/raw/release/dist/qmkg/index.js",
     cacheControl: "no-store",
     async getMediaSource(musicItem) {
         if (musicItem.shareid) {

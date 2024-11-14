@@ -227,7 +227,7 @@ module.exports = {
     platform: "千千音乐",
     author: '猫大神',
     version: "0.1.3",
-    srcUrl: "https://gitee.com/crisy/music-free-plugins/raw/release/dist/qianqian/index.js",
+    srcUrl: "https://github.com/Crisy1084/music-free-plugins/raw/release/dist/qianqian/index.js",
     cacheControl: "no-cache",
     supportedSearchType: ["music", "album", "artist"],
     async search(query, page, type) {

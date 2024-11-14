@@ -592,7 +592,7 @@ module.exports = {
   author: "猫大神",
   version: "0.2.2-alpha.3",
   srcUrl:
-    "https://gitee.com/crisy/music-free-plugins/raw/release/dist/qq/index.js",
+    "https://github.com/Crisy1084/music-free-plugins/raw/release/dist/qq/index.js",
   cacheControl: "no-cache",
   hints: {
     importMusicSheet: [

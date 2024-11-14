@@ -407,7 +407,7 @@ module.exports = {
     version: "0.2.1",
     author: '小趴菜',
     appVersion: ">0.1.0-alpha.0",
-    srcUrl: "https://gitee.com/crisy/music-free-plugins/raw/release/dist/kugou/index.js",
+    srcUrl: "https://github.com/Crisy1084/music-free-plugins/raw/release/dist/kugou/index.js",
     cacheControl: "no-cache",
     description: "",
     primaryKey: ["id", "album_id", "album_audio_id"],

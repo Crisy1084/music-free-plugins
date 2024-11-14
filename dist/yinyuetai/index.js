@@ -89,7 +89,7 @@ module.exports = {
     author: '猫大神',
     version: "0.0.1",
     supportedSearchType: ["music"],
-    srcUrl: "https://gitee.com/crisy/music-free-plugins/raw/release/dist/yinyuetai/index.js",
+    srcUrl: "https://github.com/Crisy1084/music-free-plugins/raw/release/dist/yinyuetai/index.js",
     cacheControl: "no-cache",
     search,
     getMediaSource,

@@ -42,7 +42,7 @@ module.exports = {
     platform: "歌词千寻",
     version: "0.0.1",
     author: '小趴菜',
-    srcUrl: 'https://gitee.com/crisy/music-free-plugins/raw/release/dist/lyricsearch/index.js',
+    srcUrl: 'https://github.com/Crisy1084/music-free-plugins/raw/release/dist/lyricsearch/index.js',
     cacheControl: "no-store",
     supportedSearchType: ['lyric'],
     search,

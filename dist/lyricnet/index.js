@@ -45,7 +45,7 @@ module.exports = {
     platform: "歌词网",
     version: "0.0.1",
     author: '小趴菜',
-    srcUrl: 'https://gitee.com/crisy/music-free-plugins/raw/release/dist/lyricnet/index.js',
+    srcUrl: 'https://github.com/Crisy1084/music-free-plugins/raw/release/dist/lyricnet/index.js',
     cacheControl: "no-store",
     supportedSearchType: ['lyric'],
     search,

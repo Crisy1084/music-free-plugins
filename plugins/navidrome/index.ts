@@ -134,7 +134,7 @@ module.exports = {
   author: '猫大神',
   appVersion: ">0.1.0-alpha.0",
   srcUrl:
-    "https://gitee.com/crisy/music-free-plugins/raw/release/dist/navidrome/index.js",
+    "https://github.com/Crisy1084/music-free-plugins/raw/release/dist/navidrome/index.js",
   cacheControl: "no-cache",
   userVariables: [
     {

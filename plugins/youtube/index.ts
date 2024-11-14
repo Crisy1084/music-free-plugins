@@ -215,7 +215,7 @@ module.exports = {
   version: "0.0.1",
   supportedSearchType: ["music"],
   srcUrl:
-    "https://gitee.com/crisy/music-free-plugins/raw/release/dist/youtube/index.js",
+    "https://github.com/Crisy1084/music-free-plugins/raw/release/dist/youtube/index.js",
   cacheControl: "no-cache",
   search,
   getMediaSource,

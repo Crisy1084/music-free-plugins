@@ -528,7 +528,7 @@ module.exports = {
   author: "猫大神",
   cacheControl: "no-cache",
   srcUrl:
-    "https://gitee.com/crisy/music-free-plugins/raw/release/dist/bilibili/index.js",
+    "https://github.com/Crisy1084/music-free-plugins/raw/release/dist/bilibili/index.js",
   primaryKey: ["id", "aid", "bvid", "cid"],
   hints: {
     importMusicSheet: [

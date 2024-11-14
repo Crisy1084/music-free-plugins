@@ -629,7 +629,7 @@ module.exports = {
   version: "0.2.3",
   appVersion: ">0.1.0-alpha.0",
   srcUrl:
-    "https://gitee.com/crisy/music-free-plugins/raw/release/dist/netease/index.js",
+    "https://github.com/Crisy1084/music-free-plugins/raw/release/dist/netease/index.js",
   cacheControl: "no-store",
   hints: {
     importMusicSheet: [

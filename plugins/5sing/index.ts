@@ -350,7 +350,7 @@ async function getTopListDetail(topListItem: IMusicSheet.IMusicSheetItem) {
 module.exports = {
   platform: "5sing",
   version: "0.1.2",
-  srcUrl: "https://gitee.com/crisy/music-free-plugins/raw/release/dist/5sing/index.js",
+  srcUrl: "https://github.com/Crisy1084/music-free-plugins/raw/release/dist/5sing/index.js",
   cacheControl: "no-cache",
   author: '猫大神',
   supportedSearchType: ["music", "album", "artist",],

@@ -54,7 +54,7 @@ module.exports = {
     platform: "酷歌词",
     author: '小趴菜',
     version: "0.0.1",
-    srcUrl: 'https://gitee.com/crisy/music-free-plugins/raw/release/dist/lyricku/index.js',
+    srcUrl: 'https://github.com/Crisy1084/music-free-plugins/raw/release/dist/lyricku/index.js',
     cacheControl: "no-store",
     supportedSearchType: ['lyric'],
     search,

@@ -141,7 +141,7 @@ module.exports = {
     platform: "快手",
     version: "0.0.1",
     author: '猫大神',
-    srcUrl: "https://gitee.com/crisy/music-free-plugins/raw/release/dist/kuaishou/index.js",
+    srcUrl: "https://github.com/Crisy1084/music-free-plugins/raw/release/dist/kuaishou/index.js",
     cacheControl: "no-cache",
     supportedSearchType: ["music"],
     async search(query, page, type) {

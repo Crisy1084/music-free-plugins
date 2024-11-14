@@ -98,7 +98,7 @@ module.exports = {
   version: "0.0.0",
   supportedSearchType: ["music"],
   srcUrl:
-    "https://gitee.com/crisy/music-free-plugins/raw/release/dist/webdav/index.js",
+    "https://github.com/Crisy1084/music-free-plugins/raw/release/dist/webdav/index.js",
   cacheControl: "no-cache",
   search(query, page, type) {
     if (type === "music") {

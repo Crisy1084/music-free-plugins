@@ -757,7 +757,7 @@ module.exports = {
   primaryKey: ["id", "copyrightId"],
   cacheControl: "no-cache",
   srcUrl:
-    "https://gitee.com/crisy/music-free-plugins/raw/release/dist/migu/index.js",
+    "https://github.com/Crisy1084/music-free-plugins/raw/release/dist/migu/index.js",
   supportedSearchType: ["music", "album", "sheet", "artist", "lyric"],
   getMediaSource,
   async search(query, page, type) {
