@@ -1,0 +1,59 @@
+{
+  "plugins": [
+    {
+      "name": "Audiomack",
+      "url": "https://github.com/Crisy1084/music-free-plugins/raw/release/dist/audiomack/index.js",
+      "version": "0.0.2"
+    },
+    {
+      "name": "快手",
+      "url": "https://github.com/Crisy1084/music-free-plugins/raw/release/dist/kuaishou/index.js",
+      "version": "0.0.1"
+    },
+    {
+      "name": "5sing",
+      "url": "https://github.com/Crisy1084/music-free-plugins/raw/release/dist/5sing/index.js",
+      "version": "0.1.2"
+    },
+    {
+      "name": "猫耳FM",
+      "url": "https://github.com/Crisy1084/music-free-plugins/raw/release/dist/maoerfm/index.js",
+      "version": "0.1.4"
+    },
+    {
+      "name": "Navidrome",
+      "url": "https://github.com/Crisy1084/music-free-plugins/raw/release/dist/navidrome/index.js",
+      "version": "0.0.0"
+    },
+    {
+      "name": "千千音乐",
+      "url": "https://github.com/Crisy1084/music-free-plugins/raw/release/dist/qianqian/index.js",
+      "version": "0.1.3"
+    },
+    {
+      "name": "全民K歌",
+      "url": "https://github.com/Crisy1084/music-free-plugins/raw/release/dist/qmkg/index.js",
+      "version": "0.1.1"
+    },
+    {
+      "name": "WebDAV",
+      "url": "https://github.com/Crisy1084/music-free-plugins/raw/release/dist/webdav/index.js",
+      "version": "0.0.0"
+    },
+    {
+      "name": "喜马拉雅",
+      "url": "https://github.com/Crisy1084/music-free-plugins/raw/release/dist/xmly/index.js",
+      "version": "0.1.6"
+    },
+    {
+      "name": "音悦台",
+      "url": "https://github.com/Crisy1084/music-free-plugins/raw/release/dist/yinyuetai/index.js",
+      "version": "0.0.1"
+    },
+    {
+      "name": "Youtube",
+      "url": "https://github.com/Crisy1084/music-free-plugins/raw/release/dist/youtube/index.js",
+      "version": "0.0.1"
+    }
+  ]
+}
