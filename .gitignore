@@ -1,2 +1,9 @@
 node_modules
 temp*
+/.idea/.gitignore
+/.idea/codeStyles
+/.idea/crisy.iml
+/.idea/misc.xml
+/.idea/google-java-format.xml
+/.idea/modules.xml
+/.idea/vcs.xml

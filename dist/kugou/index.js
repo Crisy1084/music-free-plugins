@@ -18,7 +18,10 @@ function formatMusicItem(_) {
         album_id: (_e = _.AlbumID) !== null && _e !== void 0 ? _e : _.Grp[0].AlbumID,
         album_audio_id: 0,
         duration: _.Duration,
-        artwork: ((_f = _.Image) !== null && _f !== void 0 ? _f : _.Grp[0].Image).replace("{size}", "1080"),
+        artwork: ((_f = _.Image) !== null && _f !== void 0 ?
+            _f :
+            _.Grp[0].Image
+        ).replace("{size}", "1080"),
         "320hash": (_i = _.HQFileHash) !== null && _i !== void 0 ? _i : undefined,
         sqhash: (_g = _.SQFileHash) !== null && _g !== void 0 ? _g : undefined,
         ResFileHash: (_h = _.ResFileHash) !== null && _h !== void 0 ? _h : undefined,
@@ -30,14 +33,30 @@ function formatMusicItem2(_) {
     return {
         id: _.hash,
         title: _.songname,
-        artist: (_a = _.singername) !== null && _a !== void 0 ? _a : (((_c = (_b = _.authors) === null || _b === void 0 ?
-            void 0 : _b.map((_) => {
-                var _a;
-                return (_a = _ === null || _ === void 0 ? void 0 : _.author_name) !== null && _a !==
-                    void 0 ? _a : "";
-            })) === null || _c === void 0 ? void 0 : _c.join(", ")) ||
-            ((_f = (_e = (_d = _.filename) === null || _d === void 0 ? void 0 : _d.split("-")) === null || _e ===
-                void 0 ? void 0 : _e[0]) === null || _f === void 0 ? void 0 : _f.trim())),
+        artist: (_a = _.singername) !== null && _a !== void 0 ?
+            _a :
+            ((_c =
+                (_b = _.authors) === null || _b === void 0 ?
+                    void 0 :
+                    _b.map((_) => {
+                        var _a;
+                        return (_a =
+                            _ === null || _ === void 0 ? void 0 : _.author_name) !==
+                            null && _a !== void 0 ?
+                            _a :
+                            "";
+                    })) === null || _c === void 0 ?
+                void 0 :
+                _c.join(", ")) ||
+            ((_f =
+                (_e =
+                    (_d = _.filename) === null || _d === void 0 ?
+                        void 0 :
+                        _d.split("-")) === null || _e === void 0 ?
+                    void 0 :
+                    _e[0]) === null || _f === void 0 ?
+                void 0 :
+                _f.trim()),
         album: (_g = _.album_name) !== null && _g !== void 0 ? _g : _.remark,
         album_id: _.album_id,
         album_audio_id: _.album_audio_id,
@@ -58,7 +77,11 @@ function formatImportMusicItem(_) {
     if (singerName && title) {
         const index = title.indexOf(singerName);
         if (index !== -1) {
-            title = (_a = title.substring(index + singerName.length + 2)) === null || _a === void 0 ? void 0 : _a.trim();
+            title =
+                (_a = title.substring(index + singerName.length + 2)) === null ||
+                    _a === void 0 ?
+                    void 0 :
+                    _a.trim();
         }
         if (!title) {
             title = singerName;
@@ -72,14 +95,25 @@ function formatImportMusicItem(_) {
         album: (_b = _.albumname) !== null && _b !== void 0 ? _b : "",
         album_id: _.album_id,
         album_audio_id: _.album_audio_id,
-        artwork: (_d = (_c = _ === null || _ === void 0 ? void 0 : _.info) === null || _c === void 0 ? void 0 : _c.image) ===
-            null || _d === void 0 ? void 0 : _d.replace("{size}", "400"),
-        "320hash": (_e = qualites === null || qualites === void 0 ? void 0 : qualites[1]) === null || _e === void 0 ?
-            void 0 : _e.hash,
-        sqhash: (_f = qualites === null || qualites === void 0 ? void 0 : qualites[2]) === null || _f === void 0 ? void 0 :
+        artwork: (_d =
+            (_c = _ === null || _ === void 0 ? void 0 : _.info) === null ||
+                _c === void 0 ?
+                void 0 :
+                _c.image) === null || _d === void 0 ?
+            void 0 :
+            _d.replace("{size}", "400"),
+        "320hash": (_e = qualites === null || qualites === void 0 ? void 0 : qualites[1]) ===
+            null || _e === void 0 ?
+            void 0 :
+            _e.hash,
+        sqhash: (_f = qualites === null || qualites === void 0 ? void 0 : qualites[2]) ===
+            null || _f === void 0 ?
+            void 0 :
             _f.hash,
-        origin_hash: (_g = qualites === null || qualites === void 0 ? void 0 : qualites[3]) === null || _g === void 0 ?
-            void 0 : _g.hash,
+        origin_hash: (_g = qualites === null || qualites === void 0 ? void 0 : qualites[3]) ===
+            null || _g === void 0 ?
+            void 0 :
+            _g.hash,
     };
 }
 const headers = {
@@ -89,21 +123,23 @@ const headers = {
     "Accept-Language": "zh-CN,zh;q=0.9",
 };
 async function searchMusic(query, page) {
-    const res = (await axios_1.default.get("https://songsearch.kugou.com/song_search_v2", {
-        headers,
-        params: {
-            keyword: query,
-            page,
-            pagesize: pageSize,
-            userid: 0,
-            clientver: "",
-            platform: "WebFilter",
-            filter: 2,
-            iscorrection: 1,
-            privilege_filter: 0,
-            area_code: 1,
-        },
-    })).data;
+    const res = (
+        await axios_1.default.get("https://songsearch.kugou.com/song_search_v2", {
+            headers,
+            params: {
+                keyword: query,
+                page,
+                pagesize: pageSize,
+                userid: 0,
+                clientver: "",
+                platform: "WebFilter",
+                filter: 2,
+                iscorrection: 1,
+                privilege_filter: 0,
+                area_code: 1,
+            },
+        })
+    ).data;
     const songs = res.data.lists.map(formatMusicItem);
     return {
         isEnd: page * pageSize >= res.data.total,
@@ -111,31 +147,36 @@ async function searchMusic(query, page) {
     };
 }
 async function searchAlbum(query, page) {
-    const res = (await axios_1.default.get("http://msearch.kugou.com/api/v3/search/album", {
-        headers,
-        params: {
-            version: 9108,
-            iscorrection: 1,
-            highlight: "em",
-            plat: 0,
-            keyword: query,
-            pagesize: 20,
-            page,
-            sver: 2,
-            with_res_tag: 0,
-        },
-    })).data;
+    const res = (
+        await axios_1.default.get("http://msearch.kugou.com/api/v3/search/album", {
+            headers,
+            params: {
+                version: 9108,
+                iscorrection: 1,
+                highlight: "em",
+                plat: 0,
+                keyword: query,
+                pagesize: 20,
+                page,
+                sver: 2,
+                with_res_tag: 0,
+            },
+        })
+    ).data;
     const albums = res.data.info.map((_) => {
         var _a, _b;
-        return ({
+        return {
             id: _.albumid,
-            artwork: (_a = _.imgurl) === null || _a === void 0 ? void 0 : _a.replace("{size}",
-                "400"),
+            artwork: (_a = _.imgurl) === null || _a === void 0 ?
+                void 0 :
+                _a.replace("{size}", "400"),
             artist: _.singername,
             title: (0, cheerio_1.load)(_.albumname).text(),
             description: _.intro,
-            date: (_b = _.publishtime) === null || _b === void 0 ? void 0 : _b.slice(0, 10),
-        });
+            date: (_b = _.publishtime) === null || _b === void 0 ?
+                void 0 :
+                _b.slice(0, 10),
+        };
     });
     return {
         isEnd: page * 20 >= res.data.total,
@@ -143,17 +184,21 @@ async function searchAlbum(query, page) {
     };
 }
 async function searchMusicSheet(query, page) {
-    const res = (await axios_1.default.get("http://mobilecdn.kugou.com/api/v3/search/special", {
-        headers,
-        params: {
-            format: "json",
-            keyword: query,
-            page,
-            pagesize: pageSize,
-            showtype: 1,
-        },
-    })).data;
-    const sheets = res.data.info.map(item => ({
+    const res = (
+        await axios_1.default.get(
+            "http://mobilecdn.kugou.com/api/v3/search/special", {
+            headers,
+            params: {
+                format: "json",
+                keyword: query,
+                page,
+                pagesize: pageSize,
+                showtype: 1,
+            },
+        }
+        )
+    ).data;
+    const sheets = res.data.info.map((item) => ({
         title: item.specialname,
         createAt: item.publishtime,
         description: item.intro,
@@ -162,7 +207,7 @@ async function searchMusicSheet(query, page) {
         gid: item.gid,
         playCount: item.playcount,
         id: item.specialid,
-        worksNum: item.songcount
+        worksNum: item.songcount,
     }));
     return {
         isEnd: page * pageSize >= res.data.total,
@@ -172,23 +217,31 @@ async function searchMusicSheet(query, page) {
 const qualityLevels = {
     low: "128k",
     standard: "320k",
-    high: "320k",
-    super: "320k",
+    high: "flac",
+    super: "flac24bit",
 };
 async function getMediaSource(musicItem, quality) {
     const res = (
         await axios_1.default.get(
-            `https://lxmusic.ikunshare.com/url/kg/${musicItem.id}/${qualityLevels[quality]}`)
+            `https://api.ikunshare.com/url?source=kg&songId=${musicItem.id}&quality=${qualityLevels[quality]}`, {
+            "headers": {
+                "X-Request-Key": "public_source"
+            }
+        }
+        )
     ).data;
     return {
         url: res.data,
     };
 }
 async function getTopLists() {
-    const lists = (await axios_1.default.get(
-        "http://mobilecdnbj.kugou.com/api/v3/rank/list?version=9108&plat=0&showtype=2&parentid=0&apiver=6&area_code=1&withsong=0&with_res_tag=0", {
-        headers: headers,
-    })).data.data.info;
+    const lists = (
+        await axios_1.default.get(
+            "http://mobilecdnbj.kugou.com/api/v3/rank/list?version=9108&plat=0&showtype=2&parentid=0&apiver=6&area_code=1&withsong=0&with_res_tag=0", {
+            headers: headers,
+        }
+        )
+    ).data.data.info;
     const res = [
         {
             title: "热门榜单",
@@ -213,32 +266,36 @@ async function getTopLists() {
             res[0].data.push({
                 id: item.rankid,
                 description: item.intro,
-                coverImg: (_a = item.imgurl) === null || _a === void 0 ? void 0 : _a.replace(
-                    "{size}", "400"),
+                coverImg: (_a = item.imgurl) === null || _a === void 0 ?
+                    void 0 :
+                    _a.replace("{size}", "400"),
                 title: item.rankname,
             });
         } else if (item.classify === 3 || item.classify === 5) {
             res[1].data.push({
                 id: item.rankid,
                 description: item.intro,
-                coverImg: (_b = item.imgurl) === null || _b === void 0 ? void 0 : _b.replace(
-                    "{size}", "400"),
+                coverImg: (_b = item.imgurl) === null || _b === void 0 ?
+                    void 0 :
+                    _b.replace("{size}", "400"),
                 title: item.rankname,
             });
         } else if (item.classify === 4) {
             res[2].data.push({
                 id: item.rankid,
                 description: item.intro,
-                coverImg: (_c = item.imgurl) === null || _c === void 0 ? void 0 : _c.replace(
-                    "{size}", "400"),
+                coverImg: (_c = item.imgurl) === null || _c === void 0 ?
+                    void 0 :
+                    _c.replace("{size}", "400"),
                 title: item.rankname,
             });
         } else {
             extra.data.push({
                 id: item.rankid,
                 description: item.intro,
-                coverImg: (_d = item.imgurl) === null || _d === void 0 ? void 0 : _d.replace(
-                    "{size}", "400"),
+                coverImg: (_d = item.imgurl) === null || _d === void 0 ?
+                    void 0 :
+                    _d.replace("{size}", "400"),
                 title: item.rankname,
             });
         }
@@ -252,59 +309,68 @@ async function getTopListDetail(topListItem) {
     const res = await axios_1.default.get(
         `http://mobilecdnbj.kugou.com/api/v3/rank/song?version=9108&ranktype=0&plat=0&pagesize=100&area_code=1&page=1&volid=35050&rankid=${topListItem.id}&with_res_tag=0`, {
         headers,
-    });
+    }
+    );
     return Object.assign(Object.assign({}, topListItem), {
-        musicList: res.data.data.info.map(formatMusicItem2)
+        musicList: res.data.data.info.map(formatMusicItem2),
     });
 }
 async function getLyricDownload(lyrdata) {
-    const result = (await (0, axios_1.default)({
-        // url: `http://lyrics.kugou.com/download?ver=1&client=pc&id=${lyrdata.id}&accesskey=${lyrdata.accessKey}&fmt=krc&charset=utf8`,
-        url: `http://lyrics.kugou.com/download?ver=1&client=pc&id=${lyrdata.id}&accesskey=${lyrdata.accessKey}&fmt=lrc&charset=utf8`,
-        headers: {
-            'KG-RC': 1,
-            'KG-THash': 'expand_search_manager.cpp:852736169:451',
-            'User-Agent': 'KuGou2012-9020-ExpandSearchManager',
-        },
-        method: "get",
-        xsrfCookieName: "XSRF-TOKEN",
-        withCredentials: true,
-    })).data;
+    const result = (
+        await (0, axios_1.default)({
+            // url: `http://lyrics.kugou.com/download?ver=1&client=pc&id=${lyrdata.id}&accesskey=${lyrdata.accessKey}&fmt=krc&charset=utf8`,
+            url: `http://lyrics.kugou.com/download?ver=1&client=pc&id=${lyrdata.id}&accesskey=${lyrdata.accessKey}&fmt=lrc&charset=utf8`,
+            headers: {
+                "KG-RC": 1,
+                "KG-THash": "expand_search_manager.cpp:852736169:451",
+                "User-Agent": "KuGou2012-9020-ExpandSearchManager",
+            },
+            method: "get",
+            xsrfCookieName: "XSRF-TOKEN",
+            withCredentials: true,
+        })
+    ).data;
     return {
-        rawLrc: he.decode(CryptoJs.enc.Base64.parse(result.content).toString(CryptoJs.enc.Utf8)),
+        rawLrc: he.decode(
+            CryptoJs.enc.Base64.parse(result.content).toString(CryptoJs.enc.Utf8)
+        ),
     };
 }
 // copy from lxmusic https://github.com/lyswhut/lx-music-desktop/blob/master/src/renderer/utils/musicSdk/kg/lyric.js#L114
 async function getLyric(musicItem) {
-    const result = (await (0, axios_1.default)({
-        url: `http://lyrics.kugou.com/search?ver=1&man=yes&client=pc&keyword=${musicItem.title}&hash=${musicItem.id}&timelength=${musicItem.duration}`,
-        headers: {
-            'KG-RC': 1,
-            'KG-THash': 'expand_search_manager.cpp:852736169:451',
-            'User-Agent': 'KuGou2012-9020-ExpandSearchManager',
-        },
-        method: "get",
-        xsrfCookieName: "XSRF-TOKEN",
-        withCredentials: true,
-    })).data;
+    const result = (
+        await (0, axios_1.default)({
+            url: `http://lyrics.kugou.com/search?ver=1&man=yes&client=pc&keyword=${musicItem.title}&hash=${musicItem.id}&timelength=${musicItem.duration}`,
+            headers: {
+                "KG-RC": 1,
+                "KG-THash": "expand_search_manager.cpp:852736169:451",
+                "User-Agent": "KuGou2012-9020-ExpandSearchManager",
+            },
+            method: "get",
+            xsrfCookieName: "XSRF-TOKEN",
+            withCredentials: true,
+        })
+    ).data;
     const info = result.candidates[0];
     return await getLyricDownload({
         id: info.id,
         accessKey: info.accesskey
-    })
+    });
 }
 async function getAlbumInfo(albumItem, page = 1) {
-    const res = (await axios_1.default.get("http://mobilecdn.kugou.com/api/v3/album/song", {
-        params: {
-            version: 9108,
-            albumid: albumItem.id,
-            plat: 0,
-            pagesize: 100,
-            area_code: 1,
-            page,
-            with_res_tag: 0,
-        },
-    })).data;
+    const res = (
+        await axios_1.default.get("http://mobilecdn.kugou.com/api/v3/album/song", {
+            params: {
+                version: 9108,
+                albumid: albumItem.id,
+                plat: 0,
+                pagesize: 100,
+                area_code: 1,
+                page,
+                with_res_tag: 0,
+            },
+        })
+    ).data;
     return {
         isEnd: page * 100 >= res.data.total,
         albumItem: {
@@ -330,7 +396,10 @@ async function getAlbumInfo(albumItem, page = 1) {
 }
 async function importMusicSheet(urlLike) {
     var _a;
-    let id = (_a = urlLike.match(/^(?:.*?)(\d+)(?:.*?)$/)) === null || _a === void 0 ? void 0 : _a[1];
+    let id =
+        (_a = urlLike.match(/^(?:.*?)(\d+)(?:.*?)$/)) === null || _a === void 0 ?
+            void 0 :
+            _a[1];
     let musicList = [];
     if (!id) {
         return;
@@ -345,7 +414,8 @@ async function importMusicSheet(urlLike) {
     });
     if (res.status === 200 && res.data.status === 1) {
         let data = res.data.data;
-        let response = await axios_1.default.post(`http://www2.kugou.kugou.com/apps/kucodeAndShare/app/`, {
+        let response = await axios_1.default.post(
+            `http://www2.kugou.kugou.com/apps/kucodeAndShare/app/`, {
             appid: 1001,
             clientver: 10112,
             mid: "70a02aad1ce4648e7dca77f2afa7b182",
@@ -359,7 +429,8 @@ async function importMusicSheet(urlLike) {
                 page: 1,
                 pagesize: data.info.count,
             },
-        });
+        }
+        );
         if (response.status === 200 && response.data.status === 1) {
             let resource = [];
             response.data.data.forEach((song) => {
@@ -393,10 +464,10 @@ async function importMusicSheet(urlLike) {
                 headers: {
                     "x-router": "media.store.kugou.com",
                 },
-            });
+            }
+            );
             if (response.status === 200 && response.data.status === 1) {
-                musicList = result.data.data
-                    .map(formatImportMusicItem);
+                musicList = result.data.data.map(formatImportMusicItem);
             }
         }
     }
@@ -404,8 +475,8 @@ async function importMusicSheet(urlLike) {
 }
 module.exports = {
     platform: "酷狗",
-    version: "0.2.1",
-    author: '小趴菜',
+    version: "0.2.2",
+    author: "小趴菜",
     appVersion: ">0.1.0-alpha.0",
     srcUrl: "https://github.com/Crisy1084/music-free-plugins/raw/release/dist/kugou/index.js",
     cacheControl: "no-cache",
