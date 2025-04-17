@@ -8,6 +8,7 @@
 | 名称 | 地址 | 备注 |
 | ------ | ------ | ------ |
 | 源插件聚合器 | https://github.com/xxnuo/MusicFreePluginsHub | 聚合仓库 |
+| meowtv | http://cdn.teyonds.com/music/plugins.json | 新线路 |
 | SoEasy同学 | https://gitee.com/kevinr/tvbox/raw/master/musicfree/plugins.json | 混合源 |
 | Maotoumao | https://gitee.com/maotoumao/MusicFreePlugins/raw/master/plugins.json | 官方源 |
 | ikun | https://mf.ikunshare.com/plugins.json | ikun音乐(跑路) |
