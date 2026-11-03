@@ -117,8 +117,16 @@ curl -sL "https://github.com/Crisy1084/music-free-plugins/raw/release/dist/<源>
 
 `aliyun` 远端是滞后镜像，默认不推，用户要求才同步。
 
+## 新增源（区别于更新的额外步骤）
+
+1. `mkdir dist/<新目录>/`（目录名用小写英文，如 `aliyundrive`），写入改好元数据的上游文件
+2. **platform 用上游值**（新源没有仓库现值；混淆文件通过冒烟测试的 require 解出真实值）
+3. 索引二选一：主流音源加 `plugins.json`；个人云盘/三方源（WebDAV、Navidrome、阿里云盘类）加 `plugins-more.json`（见 be08d3d 惯例），条目含 name/url/version
+4. 其余（元数据四字段、校验、提交推送）同更新流程
+
 ## 已知上游来源（历史记录，新 URL 以用户当次提供为准）
 
 - QQ：`https://raw.gitcode.com/Crystim/mfp/raw/main/弥音QQ.js`（2025-11-03）
 - 酷狗/酷我：`https://music.nairocy.com/file/酷狗_onemusic.js`、`..._onemusic.js`（2025-11-03）
 - 咪咕：`https://raw.giteeusercontent.com/Domdkw/MusicFree-migu/raw/master/dist/migu-plugin.js`（2025-11-03）
+- 阿里云盘：`https://raw.githubusercontent.com/Ppangling/musicfree-aliyundrive-plugin/refs/heads/main/aliyundrive.js`（2025-11-03 新增）
