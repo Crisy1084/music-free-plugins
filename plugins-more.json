@@ -54,6 +54,11 @@
       "name": "Youtube",
       "url": "https://github.com/Crisy1084/music-free-plugins/raw/release/dist/youtube/index.js",
       "version": "0.0.1"
+    },
+    {
+      "name": "阿里云盘",
+      "url": "https://github.com/Crisy1084/music-free-plugins/raw/release/dist/aliyundrive/index.js",
+      "version": "20261103"
     }
   ]
 }
