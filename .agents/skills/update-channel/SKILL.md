@@ -38,6 +38,7 @@ description: music-free-plugins 仓库音源插件更新流程：下载上游 JS
 - **干净打包**（parcel bundle）：`pluginInstance = { platform: "xxx", ... }` 字段明文，直接字符串替换
 - **压缩混淆**：字段名明文但值可能 `\u` 转义（如 `platform:"\u54AA\u5495..."`）。grep 定位时注意转义形式
 - **字符串表混淆**（Unicode 标识符 + 解码函数）：形如 `module[dec(0x1d3,'KZ7p')]={'platform':<变量>,'author':dec(0x331,'A]hA'),'version':dec('fwa^',0x63d),'srcUrl':<变量>,...}`，值为表达式，需正则替换值表达式为字符串字面量
+- **TypeScript 源码**（.ts）：走仓库构建管线，见下方「TS 源码更新流程」
 
 ### 2. 整文件替换 dist 文件，改写元数据
 
@@ -116,6 +117,18 @@ curl -sL "https://github.com/Crisy1084/music-free-plugins/raw/release/dist/<源>
 ```
 
 `aliyun` 远端是滞后镜像，默认不推，用户要求才同步。
+
+## TS 源码更新流程（上游给 .ts 时）
+
+1. 改好元数据后写入 `plugins/<源>/index.ts`（仓库源码目录，`tsc` 会编译它到 `dist/`）
+2. `npm install`（node_modules 为空时）后运行 `npx tsc`
+3. **高危，必做**：`tsc` 会编译 `plugins/` 下**全部** TS，把手工更新的上游 dist 产物（qq/kugou/kuwo/migu 等）覆盖回旧版。编译后立即：
+   ```bash
+   git checkout -- $(git diff --name-only -- dist | grep -v 'dist/<目标源>')
+   ```
+   恢复被误覆盖的文件，只留目标源产物
+4. **绝不运行 `npm run build` / `scripts/generate.js`**：它会从 dist 重新生成 plugins.json，混淆文件匹配不到 `module.exports\s*=` 正则会被整条丢弃，手工维护的索引全毁
+5. 校验同三关；编译产物是 CommonJS，require 依赖（axios/dayjs/he/cheerio 等）由 MusicFree 环境提供（cheerio 已有 netease/5sing 等 8 个在线插件在用）
 
 ## 新增源（区别于更新的额外步骤）
 
