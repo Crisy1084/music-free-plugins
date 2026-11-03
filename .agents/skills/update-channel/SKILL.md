@@ -142,4 +142,5 @@ curl -sL "https://github.com/Crisy1084/music-free-plugins/raw/release/dist/<源>
 - QQ：`https://raw.gitcode.com/Crystim/mfp/raw/main/弥音QQ.js`（2025-11-03）
 - 酷狗/酷我：`https://music.nairocy.com/file/酷狗_onemusic.js`、`..._onemusic.js`（2025-11-03）
 - 咪咕：`https://raw.giteeusercontent.com/Domdkw/MusicFree-migu/raw/master/dist/migu-plugin.js`（2025-11-03）
+- bilibili：`https://gitee.com/maotoumao/MusicFreePlugins/raw/v0.1/dist/bilibili/index.js`（编译版，配套 TS 在同仓库 `v0.1/plugins/bilibili/index.ts`）（2026-11-03）
 - 阿里云盘：`https://raw.githubusercontent.com/Ppangling/musicfree-aliyundrive-plugin/refs/heads/main/aliyundrive.js`（2025-11-03 新增）
